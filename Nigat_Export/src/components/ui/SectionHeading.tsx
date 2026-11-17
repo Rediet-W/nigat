@@ -14,7 +14,7 @@ interface SectionHeadingProps {
   size?: "display" | "h2";
   /**
    * `stack` — eyebrow, title and lead stacked.
-   * `split` — title on the left, lead and action in the right column.
+   * `split` — title on the left, lead and action pinned to the right column.
    */
   layout?: "stack" | "split";
   inverse?: boolean;
@@ -23,7 +23,7 @@ interface SectionHeadingProps {
   className?: string;
 }
 
-/** Section opener shared by every page. */
+/** Editorial section opener shared by every page. */
 export function SectionHeading({
   eyebrow,
   index,
@@ -42,14 +42,14 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        isSplit && "grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end",
-        !flush && "mb-12 lg:mb-16",
+        isSplit && "grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-10",
+        !flush && "mb-12 lg:mb-20",
         className,
       )}
     >
       <div className={cn(isSplit && "lg:col-span-7")}>
         <Reveal>
-          <Eyebrow index={index} inverse={inverse} className="mb-6">
+          <Eyebrow index={index} inverse={inverse} className="mb-6 lg:mb-8">
             {eyebrow}
           </Eyebrow>
         </Reveal>
@@ -59,9 +59,12 @@ export function SectionHeading({
       </div>
 
       {(lead || action) && (
-        <Reveal delay={160} className={cn(isSplit ? "lg:col-span-4 lg:col-start-9" : "mt-6 max-w-[38rem]")}>
-          {lead && <p className={cn("type-lead", inverse ? "text-mist" : "text-muted")}>{lead}</p>}
-          {action && <div className="mt-6">{action}</div>}
+        <Reveal
+          delay={160}
+          className={cn(isSplit ? "lg:col-span-4 lg:col-start-9" : "mt-6 max-w-[38rem] lg:mt-8")}
+        >
+          {lead && <p className={cn("type-lead", inverse ? "text-silver" : "text-steel")}>{lead}</p>}
+          {action && <div className="mt-8">{action}</div>}
         </Reveal>
       )}
     </div>

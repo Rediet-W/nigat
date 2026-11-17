@@ -4,43 +4,40 @@ import { SITE } from "@/constants/site";
 import { cn } from "@/lib/cn";
 
 interface LogoProps {
-  /** Render for a forest background. */
-  inverse?: boolean;
+  /** Render for a light background (ink wordmark). */
+  onLight?: boolean;
   className?: string;
 }
 
 /**
- * Serif wordmark with a round coffee-bean mark.
+ * Cargo-stamp monogram (a leaf-green "N" in a ruled frame) beside a condensed wordmark.
  * PLACEHOLDER — replace with the official Nigat Export logo when supplied.
  */
-export function Logo({ inverse, className }: LogoProps) {
+export function Logo({ onLight, className }: LogoProps) {
   return (
     <Link
       href={ROUTES.home}
       aria-label={`${SITE.name} — home`}
-      className={cn("group inline-flex items-center gap-2.5", inverse ? "text-canvas" : "text-ink", className)}
+      className={cn("group inline-flex items-center gap-3", onLight ? "text-ink" : "text-paper", className)}
     >
-      <svg viewBox="0 0 40 40" aria-hidden className="size-9 shrink-0">
-        <circle
-          cx="20"
-          cy="20"
-          r="20"
-          className={cn("transition-colors duration-500", inverse ? "fill-moss" : "fill-forest group-hover:fill-moss")}
-        />
-        <ellipse cx="20" cy="20" rx="8" ry="12" transform="rotate(30 20 20)" className="fill-ochre-soft" />
-        <path
-          d="M25.3 11c-3.4 2.5-1 6.6-4.4 8.4s-3.4 5-5.3 8.5"
+      <svg viewBox="0 0 64 64" aria-hidden className="size-10 shrink-0 text-accent">
+        <rect
+          x="3"
+          y="3"
+          width="58"
+          height="58"
           fill="none"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          className={inverse ? "stroke-moss" : "stroke-forest"}
+          stroke="currentColor"
+          strokeWidth="5"
+          className="transition-opacity duration-500 group-hover:opacity-40"
         />
+        <path d="M19 47V17h7l12 17V17h7v30h-7L26 30v17z" fill="currentColor" />
       </svg>
-      <span className="flex items-baseline gap-1.5 leading-none">
-        <span className="font-display text-[1.375rem] tracking-[-0.02em] [font-variation-settings:'opsz'_48,'SOFT'_50]">
-          Nigat
+      <span className="flex flex-col leading-none">
+        <span className="font-display text-[1.75rem] leading-[0.85] font-extrabold uppercase">Nigat</span>
+        <span className={cn("mt-1 text-[0.625rem] font-bold tracking-[0.42em] uppercase", onLight ? "text-steel" : "text-silver")}>
+          Export
         </span>
-        <span className={cn("text-[0.8125rem] font-medium", inverse ? "text-mist" : "text-muted")}>Export</span>
       </span>
     </Link>
   );

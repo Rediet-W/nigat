@@ -3,47 +3,35 @@ import { cn } from "@/lib/cn";
 import { Container } from "./Container";
 
 const TONES = {
-  canvas: "bg-canvas text-ink",
-  sand: "bg-sand text-ink",
-  shell: "bg-shell text-ink",
-  forest: "bg-forest text-canvas",
+  paper: "bg-paper text-ink",
+  bone: "bg-bone text-ink",
+  ink: "bg-ink text-paper",
+  graphite: "bg-graphite text-paper",
+  /** Leaf-green block — reserved for the closing enquiry. */
+  accent: "bg-accent text-ink",
 } as const;
 
 export type SectionTone = keyof typeof TONES;
 
 interface SectionProps extends ComponentProps<"section"> {
   tone?: SectionTone;
-  /** Render as a rounded colour panel inset from the page edges. */
-  inset?: boolean;
-  /** Tighter vertical padding for utility bands. */
+  /** Tighter vertical padding for utility bands (index bars, strips). */
   compact?: boolean;
   containerClassName?: string;
 }
 
-/** Page section with tone, fluid vertical rhythm and content frame. */
+/** Page section with tone background, fluid vertical rhythm and content frame. */
 export function Section({
-  tone = "canvas",
-  inset,
+  tone = "paper",
   compact,
   className,
   containerClassName,
   children,
   ...props
 }: SectionProps) {
-  const spacing = compact ? "py-12 lg:py-16" : "section-y";
-  const content = <Container className={containerClassName}>{children}</Container>;
-
-  if (inset) {
-    return (
-      <section className={cn("px-(--frame) py-[calc(var(--frame)_/_2)]", className)} {...props}>
-        <div className={cn("rounded-panel", spacing, TONES[tone])}>{content}</div>
-      </section>
-    );
-  }
-
   return (
-    <section className={cn(spacing, TONES[tone], className)} {...props}>
-      {content}
+    <section className={cn(compact ? "py-12 lg:py-16" : "section-y", TONES[tone], className)} {...props}>
+      <Container className={containerClassName}>{children}</Container>
     </section>
   );
 }

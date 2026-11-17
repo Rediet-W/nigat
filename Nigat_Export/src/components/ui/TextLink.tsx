@@ -1,17 +1,19 @@
 import Link from "next/link";
 import type { ComponentProps } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 
-/** Underlined link with an arrow that lifts on hover. */
+/** Uppercase underlined link with a travelling arrow. */
 export function TextLink({ className, children, ...props }: ComponentProps<typeof Link>) {
   return (
-    <Link className={cn("group/link type-nav inline-flex items-center gap-1.5", className)} {...props}>
+    <Link
+      className={cn("btn min-h-0 gap-3 p-0 hover:text-accent", className)}
+      {...props}
+    >
       <span className="text-link">{children}</span>
-      <ArrowUpRight
-        aria-hidden
-        className="size-4 shrink-0 transition-transform duration-500 ease-soft group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
-      />
+      <span aria-hidden className="btn-arrow">
+        <ArrowRight className="size-4" strokeWidth={2} />
+      </span>
     </Link>
   );
 }

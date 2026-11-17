@@ -3,25 +3,22 @@ import type { ComponentProps } from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 
-/** Each variant also sets the colours of the round arrow badge. */
 const VARIANTS = {
-  /** Forest pill: the default action on light surfaces. */
-  primary:
-    "bg-forest text-canvas hover:bg-moss [--arrow-bg:var(--color-ochre-soft)] [--arrow-fg:var(--color-forest)]",
-  /** Ochre pill: the primary action on forest surfaces and photography. */
-  accent:
-    "bg-ochre-soft text-forest hover:bg-shell [--arrow-bg:var(--color-forest)] [--arrow-fg:var(--color-canvas)]",
-  /** Shell pill for photography and forest surfaces. */
-  light: "bg-shell text-forest hover:bg-canvas [--arrow-bg:var(--color-forest)] [--arrow-fg:var(--color-canvas)]",
+  /** Harvest-green fill — the single primary action in a view. */
+  primary: "bg-accent text-ink hover:bg-accent-hover",
+  /** Warm-white fill for dark backgrounds. */
+  light: "bg-paper text-ink hover:bg-accent",
+  /** Ink fill for light backgrounds. */
+  dark: "bg-ink text-paper hover:bg-accent hover:text-ink",
   /** Hairline outline that inherits the surrounding text colour. */
-  outline: "border border-current/25 text-current hover:border-current/70",
+  outline: "border border-current/30 text-current hover:border-accent hover:bg-accent hover:text-ink",
 } as const;
 
 export type ButtonVariant = keyof typeof VARIANTS;
 
 interface ButtonStyleProps {
   variant?: ButtonVariant;
-  /** Hide the arrow badge. */
+  /** Hide the trailing arrow. */
   hideArrow?: boolean;
 }
 

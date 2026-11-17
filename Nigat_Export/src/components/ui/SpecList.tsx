@@ -7,17 +7,24 @@ export interface SpecRow {
 
 interface SpecListProps {
   rows: SpecRow[];
+  inverse?: boolean;
   className?: string;
 }
 
-/** Label / value tiles: a compact "spec sheet". */
-export function SpecList({ rows, className }: SpecListProps) {
+/** Label / value rows separated by hairlines — a "spec sheet". */
+export function SpecList({ rows, inverse, className }: SpecListProps) {
   return (
-    <dl className={cn("grid grid-cols-1 gap-3 sm:grid-cols-2", className)}>
+    <dl className={cn("border-t", inverse ? "border-line-inverse" : "border-line", className)}>
       {rows.map((row) => (
-        <div key={row.label} className="rounded-2xl border border-line px-5 py-4">
-          <dt className="type-eyebrow text-muted">{row.label}</dt>
-          <dd className="mt-1.5 font-medium">{row.value}</dd>
+        <div
+          key={row.label}
+          className={cn(
+            "grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-6 border-b py-4",
+            inverse ? "border-line-inverse" : "border-line",
+          )}
+        >
+          <dt className={cn("type-eyebrow pt-1", inverse ? "text-silver" : "text-steel")}>{row.label}</dt>
+          <dd className="font-medium">{row.value}</dd>
         </div>
       ))}
     </dl>
