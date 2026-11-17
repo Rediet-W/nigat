@@ -13,9 +13,15 @@ const CONTACT_LINES: ContactLine[] = [
   {
     label: "Telephone",
     content: (
-      <a href={CONTACT.phoneHref} className="transition-colors duration-500 hover:text-accent">
-        {CONTACT.phone}
-      </a>
+      <>
+        <a href={CONTACT.phoneHref} className="transition-colors duration-500 hover:text-accent">
+          {CONTACT.phone}
+        </a>
+        <br />
+        <a href={CONTACT.altPhoneHref} className="transition-colors duration-500 hover:text-accent">
+          {CONTACT.altPhone}
+        </a>
+      </>
     ),
   },
   {

@@ -97,21 +97,20 @@ rail, and the oversized footer wordmark.
 
 ## Content to confirm (placeholders)
 
-Verified Nigat Motors information was not available. Nothing below is presented as fact. Replace
-these values before launch:
+Verified company details (legal name, phones, email, location, social links) and services live in
+`src/constants/site.ts` and `src/features/services/data/services.ts`, each with an English export
+(`SITE`, `CONTACT`, `SERVICES`) and an Amharic one (`SITE_AM`, `CONTACT_AM`, `SERVICES_AM`). The
+values below are still placeholders and must be replaced before launch:
 
 | Item | Location | Current placeholder |
 | --- | --- | --- |
+| Sector website URLs | `src/constants/nigat-group.ts` (`SECTOR_URLS`); env vars `NEXT_PUBLIC_CONSTRUCTION_URL`, `NEXT_PUBLIC_MOTORS_URL`, `NEXT_PUBLIC_EXPORTS_URL` override them | `https://*.nigat.example` |
+| Sector descriptions | `src/constants/nigat-group.ts` (`SECTORS`) | One-line summaries for each sector |
 | Logo | `src/components/ui/Logo.tsx`, `src/app/icon.svg` | Copper "N" mark + wordmark |
-| Phone | `src/constants/site.ts` | `+251 000 000 000` |
-| Email | `src/constants/site.ts` | `info@nigatmotors.example` (reserved, non-routable domain) |
-| Address / hours | `src/constants/site.ts` | "to be confirmed" |
 | Production URL | `NEXT_PUBLIC_SITE_URL` env var | `http://localhost:3000` |
-| Services offered | `src/features/services/data/services.ts` | 4 general automotive services |
 | Vehicle categories | `src/features/vehicles/data/vehicle-categories.ts` | 6 general categories (not inventory) |
 | About / brand copy | `src/features/about/data/about.ts` | General copy, no figures or dates |
 | FAQ answers | `src/features/faqs/data/faqs.ts` | Process-only answers, no policies |
-| Social media links | Footer | Omitted until real accounts are provided |
 
 The copy deliberately avoids invented facts: no founding year, statistics, reviews, team members,
 brands carried or prices.

@@ -1,73 +1,79 @@
 import type { ProcessStep, Service } from "@/types";
 
 /**
- * PLACEHOLDER CONTENT — the exact services offered by Nigat Motors have not
- * been confirmed. Copy is intentionally general and free of factual claims;
- * review, edit, add or remove entries before launch (README → "Content to confirm").
+ * Services offered by Nigat Motors (Nigat Fanawi Trading PLC).
+ * `SERVICES` is the English (en) data rendered by the site; `SERVICES_AM`
+ * holds the matching Amharic (am) version with the same slugs and images.
  */
 export const SERVICES: Service[] = [
   {
-    slug: "vehicle-sales",
-    title: "Vehicle Sales",
+    slug: "electric-hybrid-vehicles",
+    title: "Electric & Hybrid Vehicles",
     image: "/images/service-vehicle-sales.jpg",
-    excerpt: "Guidance in choosing a vehicle that fits your needs, your budget and the way you drive.",
+    excerpt:
+      "Electric and hybrid vehicles including the BYD E7, Yuan Up, Seagull, Leopard, Sea Lion 06, Toyota Cross Hybrid and others.",
     overview: [
-      "Choosing a vehicle is a big decision. Our team takes the time to understand how you will use it — daily commuting, family travel, business or heavy-duty work — and helps you compare the options that make sense for you.",
+      "We supply electric and hybrid vehicles, including the BYD E7, BYD Yuan Up, BYD Seagull, BYD Leopard, BYD Sea Lion 06 and Toyota Cross Hybrid, along with other models.",
       "Tell us what you are looking for and we will share current availability, specifications and next steps, so you can decide with confidence.",
     ],
     highlights: [
-      "Help comparing vehicle categories and models",
-      "Clear information on availability and specifications",
-      "Straightforward next steps from enquiry to handover",
-      "Support after you drive away",
+      "BYD E7, Yuan Up and Seagull",
+      "BYD Leopard and Sea Lion 06",
+      "Toyota Cross Hybrid",
+      "Other electric and hybrid models on request",
     ],
   },
   {
-    slug: "maintenance-servicing",
-    title: "Maintenance & Servicing",
+    slug: "after-sales-support",
+    title: "After-Sales Support",
     image: "/images/service-maintenance.jpg",
-    excerpt: "Routine servicing and maintenance to keep your vehicle safe, reliable and running well.",
+    excerpt: "Warranty and maintenance garage services to keep your vehicle running well after purchase.",
     overview: [
-      "Regular maintenance is the simplest way to protect your vehicle and avoid unexpected breakdowns. We help you keep on top of routine servicing so your vehicle stays dependable.",
-      "Get in touch to discuss your vehicle, its service history and what it needs next — we will explain the work clearly before anything begins.",
+      "Our support continues after you drive away. We provide warranty service and maintenance garage services to keep your vehicle safe, reliable and running well.",
+      "Get in touch to discuss your vehicle, its warranty and what it needs next — we will explain the work clearly before anything begins.",
     ],
     highlights: [
-      "Routine and scheduled servicing",
+      "Warranty service",
+      "Maintenance garage services",
       "Clear explanation of recommended work",
       "Transparent communication throughout",
-      "Advice on keeping your vehicle in good condition",
+    ],
+  },
+];
+
+/** Amharic (am) version of `SERVICES`. */
+export const SERVICES_AM: Service[] = [
+  {
+    slug: "electric-hybrid-vehicles",
+    title: "የኤሌክትሪክ እና ሃይብሪድ ተሽከርካሪዎች",
+    image: "/images/service-vehicle-sales.jpg",
+    excerpt:
+      "BYD E7፣ Yuan Up፣ Seagull፣ Leopard፣ Sea Lion 06፣ Toyota Cross Hybrid እና ሌሎችንም ጨምሮ የኤሌክትሪክ እና ሃይብሪድ ተሽከርካሪዎች።",
+    overview: [
+      "BYD E7፣ BYD Yuan Up፣ BYD Seagull፣ BYD Leopard፣ BYD Sea Lion 06 እና Toyota Cross Hybridን ጨምሮ የኤሌክትሪክ እና ሃይብሪድ ተሽከርካሪዎችን ከሌሎች ሞዴሎች ጋር እናቀርባለን።",
+      "የሚፈልጉትን ይንገሩን፤ በአሁኑ ጊዜ ያሉትን ተሽከርካሪዎች፣ ዝርዝር መግለጫዎቻቸውን እና ቀጣይ እርምጃዎችን እናሳውቅዎታለን፤ በእርግጠኝነት እንዲወስኑ።",
+    ],
+    highlights: [
+      "BYD E7፣ Yuan Up እና Seagull",
+      "BYD Leopard እና Sea Lion 06",
+      "Toyota Cross Hybrid",
+      "ሌሎች የኤሌክትሪክ እና ሃይብሪድ ሞዴሎች በጥያቄ",
     ],
   },
   {
-    slug: "parts-accessories",
-    title: "Parts & Accessories",
-    image: "/images/service-parts.jpg",
-    excerpt: "Help sourcing the right parts and accessories for your vehicle.",
+    slug: "after-sales-support",
+    title: "ከሽያጭ በኋላ ድጋፍ",
+    image: "/images/service-maintenance.jpg",
+    excerpt: "ተሽከርካሪዎ ከተገዛ በኋላም በጥሩ ሁኔታ እንዲሠራ የዋስትና እና የጋራዥ ጥገና አገልግሎቶች።",
     overview: [
-      "The right part makes all the difference. Share your vehicle details and what you need, and our team will help you find suitable parts and accessories.",
-      "Whether it is a replacement component or an upgrade for comfort and convenience, we will talk you through the options available.",
+      "ድጋፋችን ተሽከርካሪዎን ከወሰዱ በኋላም ይቀጥላል። ተሽከርካሪዎ ደህንነቱ የተጠበቀ፣ አስተማማኝ እና በጥሩ ሁኔታ የሚሠራ እንዲሆን የዋስትና አገልግሎት እና የጋራዥ ጥገና አገልግሎቶችን እንሰጣለን።",
+      "ስለ ተሽከርካሪዎ፣ ስለ ዋስትናው እና ቀጣይ ስለሚያስፈልገው ለመወያየት ያግኙን — ሥራው ከመጀመሩ በፊት በግልጽ እናብራራለን።",
     ],
     highlights: [
-      "Help identifying the correct part for your vehicle",
-      "Replacement components and accessories",
-      "Guidance on compatibility",
-      "Simple enquiry process",
-    ],
-  },
-  {
-    slug: "diagnostics-inspection",
-    title: "Diagnostics & Inspection",
-    image: "/images/service-inspection.jpg",
-    excerpt: "Checks and inspections to understand your vehicle's condition before problems grow.",
-    overview: [
-      "Warning light on the dashboard, an unfamiliar noise, or simply want peace of mind? An inspection helps identify issues early and gives you a clear picture of your vehicle's condition.",
-      "Contact us to describe what you are noticing and we will advise on the best next step.",
-    ],
-    highlights: [
-      "Vehicle condition checks",
-      "Investigation of warning lights and faults",
-      "Clear findings and recommendations",
-      "Peace of mind before long journeys",
+      "የዋስትና አገልግሎት",
+      "የጋራዥ ጥገና አገልግሎቶች",
+      "የሚመከረውን ሥራ ግልጽ ማብራሪያ",
+      "በሂደቱ ሁሉ ግልጽ ግንኙነት",
     ],
   },
 ];

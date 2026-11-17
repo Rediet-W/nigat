@@ -19,7 +19,7 @@ export function HeroSection() {
       <Container className="flex flex-1 flex-col justify-end pt-(--header-height) pb-10 lg:pb-14">
         <div className="max-w-[64rem]">
           <Eyebrow inverse className="mb-8 animate-rise">
-            Vehicles · Servicing · Parts
+            Electric · Hybrid · After-Sales
           </Eyebrow>
           <h1 className="type-display-xl">
             <span className="block overflow-hidden pb-[0.04em]">

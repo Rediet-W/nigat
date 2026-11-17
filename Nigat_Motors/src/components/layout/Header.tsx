@@ -10,6 +10,7 @@ import { cn } from "@/lib/cn";
 import { ButtonLink, Container, Logo } from "@/components/ui";
 import { DesktopNav } from "./DesktopNav";
 import { MobileNav, MobileNavToggle } from "./MobileNav";
+import { SectorSwitcher } from "./SectorSwitcher";
 
 const MOBILE_NAV_ID = "mobile-navigation";
 
@@ -39,7 +40,8 @@ export function Header() {
       <Container className="flex h-(--header-height) items-center justify-between gap-8">
         <Logo />
         <DesktopNav items={MAIN_NAV} />
-        <div className="hidden items-center gap-8 lg:flex">
+        <div className="hidden h-full items-center gap-8 lg:flex">
+          <SectorSwitcher />
           <a
             href={CONTACT.phoneHref}
             className="type-nav hidden items-center gap-2 text-silver transition-colors hover:text-paper xl:flex"

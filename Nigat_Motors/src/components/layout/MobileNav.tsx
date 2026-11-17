@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useState, type CSSProperties } from "react";
-import { Mail, Phone, Plus } from "lucide-react";
+import { ArrowUpRight, Mail, Phone, Plus } from "lucide-react";
+import { CURRENT_SECTOR, GROUP, SECTORS } from "@/constants/nigat-group";
+import { ROUTES } from "@/constants/routes";
 import { CONTACT } from "@/constants/site";
 import type { NavItem, NavLink } from "@/types";
 import { cn } from "@/lib/cn";
@@ -126,6 +128,27 @@ export function MobileNav({ id, open, items, cta, onNavigate }: MobileNavProps) 
         </nav>
 
         <div className={cn("space-y-6", open && "animate-rise")} style={stagger(items.length)}>
+          <nav aria-label={GROUP.name}>
+            <p className="type-eyebrow mb-3 text-silver">{GROUP.name}</p>
+            <ul className="grid grid-cols-3 gap-px border border-line-inverse bg-line-inverse">
+              {SECTORS.map((sector) => {
+                const current = sector.key === CURRENT_SECTOR;
+
+                return (
+                  <li key={sector.key} className="bg-ink">
+                    <a
+                      href={current ? ROUTES.home : sector.href}
+                      aria-current={current ? "page" : undefined}
+                      className="type-nav flex min-h-11 items-center justify-center gap-1.5 px-2 py-3 text-center text-silver aria-[current=page]:text-accent"
+                    >
+                      {sector.name.replace(/^Nigat /, "")}
+                      {!current && <ArrowUpRight aria-hidden className="size-3 shrink-0" />}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
           <div className="space-y-3 text-silver">
             <a href={CONTACT.phoneHref} className="flex items-center gap-3">
               <Phone aria-hidden className="size-4 text-accent" /> {CONTACT.phone}

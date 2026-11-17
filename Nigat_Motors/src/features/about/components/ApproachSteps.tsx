@@ -14,7 +14,7 @@ export function ApproachSteps({ index }: ApproachStepsProps) {
         index={index}
         eyebrow="Our Approach"
         title="Simple, honest, focused on you"
-        lead="However you work with us — buying, servicing or sourcing a part — the experience follows the same three stages."
+        lead="However you work with us — buying a vehicle, warranty or maintenance — the experience follows the same three stages."
         layout="split"
       />
       <NumberedSteps steps={APPROACH_STEPS} inverse />

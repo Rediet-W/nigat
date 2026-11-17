@@ -7,7 +7,7 @@ import { createMetadata } from "@/lib/metadata";
 
 export const metadata = createMetadata({
   title: "Services",
-  description: "Vehicle sales, maintenance and servicing, parts and accessories, and diagnostics from Nigat Motors.",
+  description: "Electric and hybrid vehicles and after-sales support, including warranty and maintenance garage services, from Nigat Motors.",
   path: ROUTES.services,
 });
 
@@ -17,7 +17,7 @@ export default function ServicesPage() {
       <PageHero
         eyebrow="What we do"
         title="Services"
-        lead="Sales, servicing, parts and diagnostics — support for every stage of owning a vehicle."
+        lead="Electric & hybrid vehicles and after-sales support — for every stage of owning a vehicle."
         image="/images/hero-services.jpg"
       />
       <ServicesShowcase />
