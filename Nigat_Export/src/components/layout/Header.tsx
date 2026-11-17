@@ -7,15 +7,16 @@ import { CONTACT } from "@/constants/site";
 import { useOverlay } from "@/hooks/useOverlay";
 import { useScrollHeader } from "@/hooks/useScrollHeader";
 import { cn } from "@/lib/cn";
-import { ButtonLink, Logo } from "@/components/ui";
+import { ButtonLink, Container, Logo } from "@/components/ui";
 import { DesktopNav } from "./DesktopNav";
 import { MobileNav, MobileNavToggle } from "./MobileNav";
 
 const MOBILE_NAV_ID = "mobile-navigation";
 
 /**
- * Floating glass pill: inset from the page edges, firmer once scrolled,
- * slides away while scrolling down and returns on scroll up.
+ * Solid linen header: logo and menu on the left, phone and the leaf-green call
+ * to action on the right. Slides away while scrolling down, returns on
+ * scroll up; the rule darkens once the page has scrolled.
  */
 export function Header() {
   const { scrolled, hidden } = useScrollHeader();
@@ -28,36 +29,34 @@ export function Header() {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 px-[calc(var(--frame)_+_0.5rem)] pt-[calc(var(--frame)_+_0.5rem)] transition-transform duration-700 ease-soft",
-          hidden && !menuOpen && "-translate-y-[130%]",
+          "fixed inset-x-0 top-0 z-50 border-b bg-paper/95 text-ink backdrop-blur-xl transition-[transform,border-color] duration-700 ease-drive",
+          scrolled || menuOpen ? "border-ink/25" : "border-line",
+          hidden && !menuOpen && "-translate-y-full",
         )}
       >
-        <div
-          className={cn(
-            "relative mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-6 rounded-full border pr-2 pl-5 text-ink backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-700 ease-soft",
-            scrolled || menuOpen
-              ? "border-line bg-shell/90 shadow-[0_18px_50px_-30px_rgb(16_38_26/0.45)]"
-              : "border-shell/40 bg-shell/75",
-          )}
-        >
-          <Logo />
-          <DesktopNav items={MAIN_NAV} />
-          <div className="hidden items-center gap-5 lg:flex">
+        <Container className="flex h-(--header-height) items-center gap-8">
+          <Logo onLight />
+          <div className="hidden h-full flex-1 lg:ml-6 lg:block xl:ml-10">
+            <DesktopNav items={MAIN_NAV} />
+          </div>
+          <div className="ml-auto hidden items-center gap-7 lg:flex">
             <a
               href={CONTACT.phoneHref}
-              className="type-nav hidden items-center gap-2 text-muted transition-colors hover:text-ink xl:flex"
+              className="type-nav hidden items-center gap-2 text-steel transition-colors hover:text-ink xl:flex"
             >
-              <Phone aria-hidden className="size-3.5 text-ochre" />
+              <Phone aria-hidden className="size-3.5 text-accent" />
               {CONTACT.phone}
             </a>
-            <ButtonLink href={HEADER_CTA.href} className="min-h-12">
+            <ButtonLink href={HEADER_CTA.href} className="min-h-11 px-5">
               {HEADER_CTA.label}
             </ButtonLink>
           </div>
-          <MobileNavToggle open={menuOpen} controls={MOBILE_NAV_ID} onToggle={() => setMenuOpen((open) => !open)} />
-        </div>
+          <div className="ml-auto lg:hidden">
+            <MobileNavToggle open={menuOpen} controls={MOBILE_NAV_ID} onToggle={() => setMenuOpen((open) => !open)} />
+          </div>
+        </Container>
       </header>
-      {/* Rendered outside <header>: the pill's backdrop-filter would otherwise trap this fixed overlay. */}
+      {/* Rendered outside <header>: its backdrop-filter would otherwise trap this fixed overlay. */}
       <MobileNav id={MOBILE_NAV_ID} open={menuOpen} items={MAIN_NAV} cta={HEADER_CTA} onNavigate={closeMenu} />
     </>
   );
