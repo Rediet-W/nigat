@@ -25,7 +25,7 @@ npm run lint
 | UI | React 19, TypeScript (strict) |
 | Styling | Tailwind CSS v4: tokens in `src/styles/globals.css` (`@theme`) |
 | Icons | `lucide-react` (the only extra runtime dependency) |
-| Fonts | Fraunces (variable `opsz` + `SOFT` axes, display) + Inter Tight (body) via `next/font` |
+| Fonts | Big Shoulders (condensed display) + Hanken Grotesk (text) via `next/font` |
 | Animation | CSS-only: blur-rise scroll reveals (`<Reveal />` + IntersectionObserver), hero zoom, product marquee, expanding service panels; all disabled under `prefers-reduced-motion` |
 
 ## Architecture (feature-first)
@@ -38,13 +38,13 @@ src/
 │   ├── not-found.tsx  icon.svg  sitemap.ts  robots.ts  layout.tsx
 ├── components/
 │   ├── ui/                 # Design-system primitives (Button, Section, SectionHeading, Eyebrow, Reveal,
-│   │                       #   Accordion, NumberedSteps, SpecList, Marquee, TextLink, Logo…)
-│   └── layout/             # Floating pill Header (DesktopNav panel + MobileNav sheet), PageHero, Footer
+│   │                       #   Accordion, NumberedSteps, SpecList, TextLink, Logo…)
+│   └── layout/             # Header (DesktopNav panel + MobileNav), PageHero, Footer
 ├── features/               # One folder per domain; each exposes a public index.ts
-│   ├── home/               # HeroSection, ProductMarquee
+│   ├── home/               # HeroSection, HeroSlideshow, ProductMarquee + hero-slides data
 │   ├── about/              # AboutManifesto, ApproachSteps, PrinciplesBand + data
 │   ├── services/           # ServicesIndex, ServicesShowcase, ServiceDetail + data
-│   ├── products/           # ProductGrid, ProductShowcase + data
+│   ├── products/           # ProductMosaic, ProductShowcase + data
 │   ├── gallery/            # GalleryGrid, Lightbox + data
 │   ├── faqs/               # FaqPreview, FaqList + data
 │   └── contact/            # ContactSection, EnquiryCta, EnquiryForm + lib/enquiry.ts
@@ -61,7 +61,8 @@ Conventions:
 - All internal URLs come from `ROUTES` (`src/constants/routes.ts`).
 - All company details come from `src/constants/site.ts`.
 - Components are Server Components by default. `"use client"` is used only where interaction
-  requires it: Header/nav, Reveal, Accordion, HeroBackdrop, EnquiryForm and Gallery.
+  requires it: Header/nav, Reveal, Accordion, HeroSlideshow, EnquiryForm and
+  Gallery.
 - With Cache Components, request-time reads are isolated behind `<Suspense>`: `usePathname` in
   `ActivePath`, `useSearchParams` in `EnquiryFormFromQuery`. The footer year uses `"use cache"`.
 
@@ -69,26 +70,29 @@ Conventions:
 
 All tokens live in `src/styles/globals.css`. Components use the named tokens, never raw hex values.
 
-**Palette** (`@theme`): `canvas #F4EFE6` (page) · `sand #E9E1D2` · `shell #FBF8F2` (cards) ·
-`forest #10261A` (dark panels) · `moss #1C3A29` · `ink #17201A` · `muted #5C645B` · `mist #B8C2B3`
-(secondary text on forest) · accent `ochre #9C6414` on light surfaces and `ochre-soft #E2AC55` on forest.
+Style name: **Field**. An editorial layout of its own: a solid linen header, a full-screen
+photographic hero with a slide index along its foot, a leaf-green product ticker, staggered About photo
+columns, a product mosaic, an origin-to-destination services chain, a framed principles split, a
+two-column FAQ and a leaf-green enquiry block. Sharp edges and hairline rules throughout.
 
-**Typography:** Fraunces, a soft variable serif in sentence case, for headlines (`type-display-xl`,
-`type-display`, `type-h2`, `type-h3`, `type-statement`), with `serif-italic` for the emphasised words;
-Inter Tight for text. Fluid `clamp()` sizes. Rule: don't combine a `type-*` utility with a base
-`text-[size]`/`tracking-*` class. Add a dedicated utility instead (e.g. `type-panel`, `type-marquee`).
+**Palette** (`@theme`), organic greens: `ink #16241A` (deep forest) · `graphite #1E3223` (moss) ·
+`carbon #29412D` · `paper #EFF1E6` (pale sage linen) · `bone #DFE6D2` (sage) · `silver #B5C4A5`
+(secondary text on dark) · `steel #566A51` (secondary text on light) · one accent, `leaf #86A74E`
+(`accent`), hover `leaf-bright #9CBC62`. Photo overlays use deep forest, never neutral black.
 
-**Shape and layout:** rounded everything: `rounded-card` (1.5rem) and `rounded-panel` (fluid
-1.5–2.25rem), pill buttons, chips and inputs. Colour sections are panels inset from the page edges by
-`--frame` (`<Section tone inset>`); the home hero and the footer use the same frame. 1400px container,
-12-column grid, bento grids for About and Products.
+**Typography:** Big Shoulders, a condensed industrial grotesque in uppercase with a cargo-stencil
+feel, for display (`type-display-xl`, `type-display`, `type-h2`, `type-menu`, `type-wordmark`,
+`type-number`). Hanken Grotesk for text and sub-headings (`type-h3`, `type-h4`, `type-statement`,
+`type-lead`, `type-eyebrow`, `type-nav`). Fluid `clamp()` sizes. Rule: don't combine a `type-*`
+utility with a base `text-[size]`/`tracking-*` class. Add a dedicated utility instead.
 
-**Motion:** a single easing, `--ease-soft`. Reveals rise out of a light blur (`up`, `fade`) or open a
-rounded frame outwards (`mask`). Button arrows turn on hover; the header pill hides on scroll down.
+**Shape and layout:** sharp edges, 1px rules, no shadows; 1520px container, 12-column grid.
 
-**Signature patterns:** the inset hero with a glass "What we export" card, the italic product
-marquee, the About and Products bento grids, the expanding service panels (≥ 1280px), step cards
-with segmented progress bars, the masonry gallery and the oversized serif footer wordmark.
+**Motion:** a single easing, `--ease-drive`. Reveals rise (`up`), fade, or lift a curtain off a
+photo (`mask`); the hero cross-fades with a slow push-in; button arrows drive through on hover.
+
+**Logo:** a leaf-green "N" inside a ruled frame, like a cargo stamp (placeholder until the official
+logo is supplied).
 
 ## Content to confirm (placeholders)
 
