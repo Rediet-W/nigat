@@ -1,87 +1,68 @@
 import Image from "next/image";
 import { ROUTES } from "@/constants/routes";
-import { cn } from "@/lib/cn";
 import { formatIndex } from "@/lib/format";
 import { ButtonLink, Eyebrow, Reveal, Section, SpecList } from "@/components/ui";
 import { PRODUCT_CATEGORIES } from "../data/product-categories";
 
-/** Products page: a row of jump chips, then one rounded card per category. */
+/** Products page: a sticky category index beside a two-column grid of product sheets. */
 export function ProductShowcase() {
-  const total = formatIndex(PRODUCT_CATEGORIES.length - 1);
-
   return (
     <Section>
-      <nav aria-label="Jump to a product" className="mb-10 lg:mb-14">
-        <ul className="no-scrollbar -mx-(--gutter) flex gap-2 overflow-x-auto px-(--gutter) md:flex-wrap">
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
+        <nav
+          aria-label="Product categories"
+          className="lg:sticky lg:top-[calc(var(--header-height)_+_2rem)] lg:col-span-3 lg:self-start"
+        >
+          <Eyebrow className="mb-6">Categories</Eyebrow>
+          <ol className="flex flex-wrap gap-2 lg:block lg:border-t lg:border-ink">
+            {PRODUCT_CATEGORIES.map((category, i) => (
+              <li key={category.slug} className="lg:border-b lg:border-line">
+                <a
+                  href={`#${category.slug}`}
+                  className="type-nav flex items-baseline gap-4 border border-line px-4 py-2.5 transition-colors duration-500 hover:border-accent hover:text-accent lg:border-0 lg:px-0 lg:py-4"
+                >
+                  <span className="type-number text-accent">{formatIndex(i)}</span>
+                  {category.name}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+
+        <div className="grid grid-cols-1 gap-x-10 gap-y-20 md:grid-cols-2 lg:col-span-9">
           {PRODUCT_CATEGORIES.map((category, i) => (
-            <li key={category.slug} className="shrink-0">
-              <a
-                href={`#${category.slug}`}
-                className="type-nav flex items-center gap-2.5 rounded-full border border-line px-4 py-2.5 transition-colors duration-500 hover:border-forest hover:bg-forest hover:text-canvas"
-              >
-                <span className="type-number text-xs text-muted">{formatIndex(i)}</span>
-                {category.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      <div className="space-y-4">
-        {PRODUCT_CATEGORIES.map((category, i) => {
-          const reversed = i % 2 === 1;
-
-          return (
-            <article
-              key={category.slug}
-              id={category.slug}
-              className="grid scroll-mt-(--header-height) grid-cols-1 gap-4 rounded-panel bg-shell p-3 md:p-4 lg:grid-cols-2 lg:gap-8"
-            >
-              <Reveal
-                variant="mask"
-                className={cn(
-                  "relative aspect-[4/3] overflow-hidden rounded-card bg-sand lg:aspect-auto lg:min-h-[32rem]",
-                  reversed && "lg:order-2",
-                )}
-              >
-                <Image
-                  src={category.image}
-                  alt={category.name}
-                  fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-cover"
-                />
+            <article key={category.slug} id={category.slug} className="flex scroll-mt-(--header-height) flex-col">
+              <Reveal variant="mask">
+                <figure className="relative aspect-[4/3] overflow-hidden bg-bone">
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    fill
+                    sizes="(min-width: 1024px) 36vw, (min-width: 768px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                  <figcaption className="type-number absolute top-0 left-0 bg-accent px-3 py-2 text-ink">
+                    {formatIndex(i)}
+                  </figcaption>
+                </figure>
               </Reveal>
-
-              <div className={cn("flex flex-col gap-10 p-4 md:p-6 lg:p-10", reversed && "lg:order-1")}>
-                <Reveal className="flex items-center justify-between gap-4">
-                  <Eyebrow>Export category</Eyebrow>
-                  <span className="type-number text-sm text-muted">
-                    <span className="text-ink">{formatIndex(i)}</span> / {total}
-                  </span>
-                </Reveal>
-                <div className="mt-auto">
-                  <Reveal>
-                    <h2 className="type-h2">{category.name}</h2>
-                    <p className="type-lead mt-5 max-w-[32rem] text-muted">{category.description}</p>
-                  </Reveal>
-                  <Reveal delay={120}>
-                    <SpecList
-                      className="mt-8"
-                      rows={[
-                        { label: "Ideal for", value: category.idealFor },
-                        { label: "Availability", value: "On enquiry" },
-                      ]}
-                    />
-                    <ButtonLink href={ROUTES.enquire(category.slug)} className="mt-8">
-                      Enquire about {category.name}
-                    </ButtonLink>
-                  </Reveal>
-                </div>
-              </div>
+              <Reveal delay={100} className="flex flex-1 flex-col">
+                <h2 className="type-h2 mt-8">{category.name}</h2>
+                <p className="mt-4 text-steel">{category.description}</p>
+                <SpecList
+                  className="mt-6"
+                  rows={[
+                    { label: "Ideal for", value: category.idealFor },
+                    { label: "Availability", value: "On enquiry" },
+                  ]}
+                />
+                <ButtonLink href={ROUTES.enquire(category.slug)} variant="dark" className="mt-8 self-start">
+                  Enquire about {category.name}
+                </ButtonLink>
+              </Reveal>
             </article>
-          );
-        })}
+          ))}
+        </div>
       </div>
     </Section>
   );
