@@ -1,21 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter_Tight } from "next/font/google";
+import { Big_Shoulders, Hanken_Grotesk } from "next/font/google";
 import { Footer, Header } from "@/components/layout";
 import { SITE } from "@/constants/site";
 import "@/styles/globals.css";
 
-/** Display face: a soft variable serif (optical size + softness axes). */
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+/** Display face — a condensed, industrial grotesque used in uppercase. */
+const shoulders = Big_Shoulders({
+  variable: "--font-shoulders",
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz", "SOFT"],
   display: "swap",
 });
 
-/** Text face. */
-const interTight = Inter_Tight({
-  variable: "--font-inter-tight",
+/** Text face, also used for sub-headings. */
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
   display: "swap",
 });
@@ -36,21 +34,19 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f4efe6",
+  themeColor: "#eff1e6",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${interTight.variable}`}>
+    <html lang="en" className={`${shoulders.variable} ${hanken.variable}`}>
       <body className="flex min-h-dvh flex-col">
         <noscript>
-          <style>
-            {".reveal{opacity:1!important;filter:none!important;transform:none!important;clip-path:none!important}.reveal img{transform:none!important}"}
-          </style>
+          <style>{".reveal{opacity:1!important;transform:none!important;clip-path:none!important}.reveal img{transform:none!important}"}</style>
         </noscript>
         <a
           href="#main-content"
-          className="type-nav sr-only z-[200] rounded-full bg-forest px-5 py-3 text-canvas focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+          className="type-nav sr-only z-[200] bg-accent px-5 py-4 text-ink focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
         >
           Skip to content
         </a>
