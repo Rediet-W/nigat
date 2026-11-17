@@ -1,0 +1,489 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+ * NIGAT EXPORT — DESIGN SYSTEM ("Origin")
+ * --------------------------------------------------------------------------
+ * Palette   Warm canvas and sand, deep forest green surfaces, one ochre
+ *           accent (dark ochre on light, soft ochre on forest).
+ * Type      Fraunces (soft variable serif, display) + Inter Tight (text).
+ *           Sentence case, italic serif for emphasis.
+ * Shape     Rounded, inset panels on a canvas page; pill controls; bento grids.
+ * Motion    One easing curve ("soft"); reveals rise out of a light blur.
+ * Grid      Tailwind default breakpoints, 1400px content width, fluid gutters.
+ * ========================================================================== */
+
+@theme {
+  /* Palette */
+  --color-canvas: #f4efe6;
+  --color-sand: #e9e1d2;
+  --color-shell: #fbf8f2;
+  --color-forest: #10261a;
+  --color-moss: #1c3a29;
+  --color-ink: #17201a;
+  --color-muted: #5c645b;
+  --color-mist: #b8c2b3;
+  --color-ochre: #9c6414;
+  --color-ochre-soft: #e2ac55;
+
+  /* Semantic */
+  --color-line: rgb(23 32 26 / 0.12);
+  --color-line-inverse: rgb(244 239 230 / 0.16);
+  --color-error: #b3361f;
+
+  /* Type */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+
+  /* Shape */
+  --radius-card: 1.5rem;
+  --radius-panel: clamp(1.5rem, 2.4vw, 2.25rem);
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-hero-zoom: hero-zoom 2.4s var(--ease-soft) both;
+  --animate-rise: rise 1.1s var(--ease-soft) both;
+
+  @keyframes hero-zoom {
+    from {
+      transform: scale(1.1);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translate3d(0, 28px, 0);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: none;
+    }
+  }
+}
+
+/* Plain CSS variables for layout rhythm (used through arbitrary values). */
+:root {
+  --space-section: clamp(4.5rem, 9vw, 8.5rem);
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  /* Margin around inset panels (hero frame, colour panels, footer). */
+  --frame: clamp(0.5rem, 1vw, 1rem);
+  --header-height: 5.5rem;
+}
+
+/* ==========================================================================
+ * Base
+ * ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
+  }
+
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.05;
+  }
+
+  ::selection {
+    background-color: var(--color-ochre-soft);
+    color: var(--color-forest);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ochre);
+    outline-offset: 3px;
+  }
+}
+
+/* ==========================================================================
+ * Type scale
+ * ========================================================================== */
+@utility type-display-xl {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-weight: 380;
+  font-size: clamp(min(2.75rem, 11vw), min(7vw, 12.5svh), 7.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+@utility type-display {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-weight: 380;
+  font-size: clamp(min(2.375rem, 9.5vw), 5vw, 5.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+@utility type-h2 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 96, "SOFT" 50;
+  font-weight: 400;
+  font-size: clamp(1.875rem, 3.2vw, 3.25rem);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+}
+
+@utility type-h3 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 48, "SOFT" 50;
+  font-weight: 420;
+  font-size: clamp(1.375rem, 1.9vw, 1.875rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+/* Titles inside the narrow, collapsible service panels. */
+@utility type-panel {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 48, "SOFT" 50;
+  font-weight: 420;
+  font-size: clamp(1.375rem, 1.6vw, 1.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+}
+
+@utility type-h4 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+@utility type-statement {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 72, "SOFT" 50;
+  font-weight: 360;
+  font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+}
+
+@utility type-menu {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 96, "SOFT" 50;
+  font-weight: 380;
+  font-size: clamp(2rem, 9vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+@utility type-marquee {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 96, "SOFT" 100;
+  font-style: italic;
+  font-weight: 350;
+  font-size: clamp(1.75rem, 3.6vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+@utility type-wordmark {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-weight: 400;
+  font-size: clamp(3rem, 13.5vw, 13rem);
+  line-height: 0.8;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+
+@utility type-lead {
+  font-size: clamp(1.0625rem, 1.25vw, 1.25rem);
+  line-height: 1.6;
+}
+
+@utility type-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+@utility type-nav {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+@utility type-number {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Italic serif used for the emphasised words of a headline. */
+@utility serif-italic {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+
+/* ==========================================================================
+ * Layout primitives
+ * ========================================================================== */
+@utility gutter {
+  padding-inline: var(--gutter);
+}
+
+@utility section-y {
+  padding-block: var(--space-section);
+}
+
+/* ==========================================================================
+ * Components that rely on pseudo-elements / shared motion
+ * ========================================================================== */
+@layer components {
+  /* Pill button with a round arrow badge that turns on hover. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.875rem;
+    min-height: 3.25rem;
+    padding: 0.375rem 0.375rem 0.375rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    text-align: center;
+    transition:
+      background-color 0.5s var(--ease-soft),
+      color 0.5s var(--ease-soft),
+      border-color 0.5s var(--ease-soft);
+  }
+
+  .btn:not(:has(.btn-arrow)) {
+    padding-inline: 1.5rem;
+  }
+
+  .btn-arrow {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    background-color: var(--arrow-bg, transparent);
+    color: var(--arrow-fg, currentColor);
+    transition: background-color 0.5s var(--ease-soft);
+  }
+
+  .btn-arrow > svg {
+    transition: transform 0.6s var(--ease-soft);
+  }
+
+  .btn:hover .btn-arrow > svg,
+  .btn:focus-visible .btn-arrow > svg {
+    transform: rotate(-45deg);
+  }
+
+  /* Text link: hairline underline that redraws from the left on hover. */
+  .text-link {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    padding-bottom: 0.125rem;
+  }
+
+  a:hover > .text-link,
+  a:focus-visible > .text-link {
+    animation: underline-redraw 0.8s var(--ease-soft);
+  }
+
+  @keyframes underline-redraw {
+    0% {
+      background-size: 100% 1px;
+      background-position: 100% 100%;
+    }
+    49% {
+      background-size: 0 1px;
+      background-position: 100% 100%;
+    }
+    50% {
+      background-size: 0 1px;
+      background-position: 0 100%;
+    }
+    100% {
+      background-size: 100% 1px;
+      background-position: 0 100%;
+    }
+  }
+
+  /* Scroll reveal (driven by <Reveal />): rise out of a soft blur. */
+  .reveal {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translate3d(0, 28px, 0);
+    transition:
+      opacity 1.1s var(--ease-soft),
+      filter 1.1s var(--ease-soft),
+      transform 1.1s var(--ease-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal[data-variant="fade"] {
+    transform: none;
+  }
+
+  /* Image reveal: the rounded frame opens outwards while the photo settles. */
+  .reveal[data-variant="mask"] {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    clip-path: inset(8% 8% 8% 8% round var(--radius-panel));
+    transition: clip-path 1.4s var(--ease-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal[data-variant="mask"] img {
+    transform: scale(1.12);
+    transition: transform 1.8s var(--ease-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+
+  .reveal[data-variant="mask"].is-visible {
+    clip-path: inset(0 0 0 0 round 0);
+  }
+
+  .reveal[data-variant="mask"].is-visible img {
+    transform: scale(1);
+  }
+
+  /* Photo hover: slow push-in. */
+  .photo-zoom img {
+    transition: transform 1.4s var(--ease-soft);
+  }
+
+  .group:hover .photo-zoom img,
+  .group:focus-visible .photo-zoom img {
+    transform: scale(1.06);
+  }
+
+  /* Hide scrollbars on horizontal chip rows while keeping them scrollable. */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Home hero backdrop: slow push-in on the active photo. */
+  .hero-kenburns {
+    transform: scale(1.08);
+    transition: transform 0s linear 1.6s;
+  }
+
+  .hero-kenburns.is-active {
+    transform: scale(1);
+    transition: transform var(--kenburns-duration, 8s) linear;
+  }
+
+  /* Endless product-name ribbon (<Marquee />). */
+  .marquee-track {
+    animation: marquee 48s linear infinite;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  /* Services: a row of photo panels; the hovered / focused one widens (≥ 1280px). */
+  @media (min-width: 1280px) {
+    .expand-panel {
+      flex: 1 1 0%;
+      transition: flex-grow 0.9s var(--ease-soft);
+    }
+
+    .expand-panels:hover .expand-panel:hover,
+    .expand-panels .expand-panel:focus-within,
+    .expand-panels:not(:hover):not(:focus-within) .expand-panel:first-child {
+      flex-grow: 2.2;
+    }
+
+    .panel-detail {
+      opacity: 0;
+      transform: translate3d(0, 12px, 0);
+      transition:
+        opacity 0.5s var(--ease-soft),
+        transform 0.5s var(--ease-soft);
+    }
+
+    .expand-panel:hover .panel-detail,
+    .expand-panel:focus-within .panel-detail,
+    .expand-panels:not(:hover):not(:focus-within) .expand-panel:first-child .panel-detail {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0.25s;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal[data-variant="mask"],
+    .reveal[data-variant="mask"] img {
+      opacity: 1;
+      filter: none;
+      transform: none;
+      clip-path: none;
+      transition: none;
+    }
+
+    .animate-hero-zoom,
+    .animate-rise,
+    .hero-kenburns,
+    .marquee-track,
+    .btn-arrow > svg,
+    .text-link,
+    .photo-zoom img,
+    .expand-panel,
+    .panel-detail {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
