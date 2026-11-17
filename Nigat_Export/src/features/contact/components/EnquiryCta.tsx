@@ -1,45 +1,46 @@
 import { Mail, Phone } from "lucide-react";
 import { CONTACT } from "@/constants/site";
-import { Reveal, Section, SectionHeading } from "@/components/ui";
+import { Reveal, Section } from "@/components/ui";
 import { EnquiryForm } from "./EnquiryForm";
 
 interface EnquiryCtaProps {
   index?: string;
 }
 
-const contactPill =
-  "inline-flex items-center gap-3 rounded-full bg-shell py-2 pr-5 pl-2 transition-colors duration-500 hover:bg-forest hover:text-canvas";
-
-/** Closing enquiry panel: heading and direct lines on the left, the form in a card on the right. */
+/** Closing enquiry on leaf-green: a large title and direct lines beside a linen form card. */
 export function EnquiryCta({ index }: EnquiryCtaProps) {
   return (
-    <Section tone="sand" inset>
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+    <Section tone="accent">
+      <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
-          <SectionHeading
-            index={index}
-            eyebrow="Enquire"
-            title="Let's talk about your next shipment"
-            lead="Tell us what you need — a product, a service or a shipping question — and the right person will get back to you."
-            flush
-          />
-          <Reveal delay={200} className="mt-10 flex flex-col items-start gap-3">
-            <a href={CONTACT.phoneHref} className={contactPill}>
-              <span className="flex size-9 items-center justify-center rounded-full bg-forest text-canvas">
-                <Phone aria-hidden className="size-4" />
-              </span>
+          <Reveal>
+            <p className="type-eyebrow mb-6 flex items-center gap-3 lg:mb-8">
+              {index && <span>{index}</span>}
+              <span aria-hidden className="h-px w-8 bg-ink" />
+              Enquire
+            </p>
+            <h2 className="type-display text-balance">Let&apos;s talk about your next shipment</h2>
+            <p className="type-lead mt-8 max-w-[30rem] text-ink/75">
+              Tell us what you need — a product, a service or a shipping question — and the right person will get
+              back to you.
+            </p>
+          </Reveal>
+          <Reveal delay={200} className="mt-12 space-y-4 border-t border-ink/25 pt-8">
+            <a href={CONTACT.phoneHref} className="flex items-center gap-4 transition-opacity hover:opacity-70">
+              <Phone aria-hidden className="size-4" />
               <span className="type-h4">{CONTACT.phone}</span>
             </a>
-            <a href={`mailto:${CONTACT.email}`} className={`${contactPill} max-w-full`}>
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-forest text-canvas">
-                <Mail aria-hidden className="size-4" />
-              </span>
-              <span className="type-h4 break-all">{CONTACT.email}</span>
+            <a
+              href={`mailto:${CONTACT.email}`}
+              className="flex items-center gap-4 break-all transition-opacity hover:opacity-70"
+            >
+              <Mail aria-hidden className="size-4 shrink-0" />
+              <span className="type-h4">{CONTACT.email}</span>
             </a>
           </Reveal>
         </div>
 
-        <Reveal delay={150} className="rounded-panel bg-shell p-6 md:p-10 lg:col-span-7">
+        <Reveal delay={150} className="bg-paper p-6 md:p-10 lg:col-span-6 lg:col-start-7 lg:p-12">
           <EnquiryForm />
         </Reveal>
       </div>

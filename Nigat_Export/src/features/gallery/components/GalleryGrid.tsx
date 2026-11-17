@@ -9,44 +9,52 @@ import { Reveal } from "@/components/ui";
 import { GALLERY_IMAGES } from "../data/gallery";
 import { Lightbox } from "./Lightbox";
 
-/** Repeating aspect ratios that give the masonry columns their rhythm. */
-const ASPECTS = ["aspect-[4/5]", "aspect-[4/3]", "aspect-square", "aspect-[3/4]", "aspect-[16/11]", "aspect-[4/5]"];
+/**
+ * Repeating six-tile composition on a 12-column grid:
+ * one large + two stacked, then three tall portraits.
+ */
+const TILE_PATTERN = [
+  "md:col-span-7 md:row-span-2",
+  "md:col-span-5",
+  "md:col-span-5",
+  "md:col-span-4 md:row-span-2",
+  "md:col-span-4 md:row-span-2",
+  "md:col-span-4 md:row-span-2",
+];
 
-/** Masonry of rounded photos; every tile opens the lightbox. */
+/** Asymmetric photo grid; every tile opens the lightbox. */
 export function GalleryGrid() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const close = useCallback(() => setActiveIndex(null), []);
 
   return (
     <>
-      <ul className="columns-1 gap-4 sm:columns-2 lg:columns-3">
+      <ul className="grid gap-4 md:auto-rows-[clamp(11rem,17vw,17rem)] md:grid-cols-12 md:gap-5">
         {GALLERY_IMAGES.map((image, index) => (
-          <li key={image.src} className="mb-4 break-inside-avoid">
-            <Reveal variant="mask" delay={(index % 3) * 100}>
+          <li key={image.src} className={cn("aspect-[4/3] md:aspect-auto", TILE_PATTERN[index % TILE_PATTERN.length])}>
+            <Reveal variant="mask" delay={(index % 3) * 100} className="h-full">
               <button
                 type="button"
                 onClick={() => setActiveIndex(index)}
                 aria-label={`Open image ${index + 1}: ${image.alt}`}
-                className={cn(
-                  "group relative block w-full overflow-hidden rounded-card bg-sand text-left",
-                  ASPECTS[index % ASPECTS.length],
-                )}
+                className="group relative block size-full overflow-hidden bg-carbon text-left"
               >
                 <span className="photo-zoom absolute inset-0">
                   <Image
                     src={image.src}
                     alt={image.alt}
                     fill
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    sizes="(min-width: 768px) 50vw, 100vw"
                     className="object-cover"
                   />
                 </span>
-                <span className="absolute inset-x-3 bottom-3 flex translate-y-2 items-center justify-between gap-4 rounded-2xl bg-shell/90 py-2 pr-2 pl-4 text-sm text-ink opacity-0 backdrop-blur-md transition-all duration-700 ease-soft group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
-                  <span>
-                    <span className="type-number mr-2 text-muted">{formatIndex(index)}</span>
+                <span className="absolute inset-0 bg-linear-to-t from-ink/80 via-ink/0 to-ink/0 opacity-0 transition-opacity duration-700 group-hover:opacity-100 group-focus-visible:opacity-100" />
+                <span className="absolute inset-x-5 bottom-5 flex translate-y-3 items-end justify-between gap-4 text-paper opacity-0 transition-all duration-700 ease-drive group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+                  <span className="text-sm">
+                    <span className="type-number mr-3 text-accent">{formatIndex(index)}</span>
                     {image.alt}
                   </span>
-                  <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-forest text-canvas">
+                  <span className="flex size-10 shrink-0 items-center justify-center bg-accent text-ink">
                     <Plus aria-hidden className="size-4" />
                   </span>
                 </span>

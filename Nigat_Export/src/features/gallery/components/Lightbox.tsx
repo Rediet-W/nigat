@@ -15,7 +15,7 @@ interface LightboxProps {
 }
 
 const controlClass =
-  "flex size-12 items-center justify-center rounded-full bg-canvas/10 text-canvas transition-colors duration-500 hover:bg-canvas hover:text-forest";
+  "flex size-12 items-center justify-center border border-line-inverse text-paper transition-colors duration-500 hover:border-accent hover:bg-accent hover:text-ink";
 
 /** Full-screen viewer — Esc closes, ← / → navigate. */
 export function Lightbox({ images, index, onClose, onNavigate }: LightboxProps) {
@@ -48,12 +48,12 @@ export function Lightbox({ images, index, onClose, onNavigate }: LightboxProps) 
       role="dialog"
       aria-modal="true"
       aria-label={`Image ${index + 1} of ${total}: ${image.alt}`}
-      className="fixed inset-0 z-[100] flex flex-col bg-forest/95 text-canvas backdrop-blur-md"
+      className="fixed inset-0 z-[100] flex flex-col bg-ink/97 text-paper backdrop-blur-sm"
     >
       <div className="gutter flex h-(--header-height) shrink-0 items-center justify-between">
         <p className="type-number text-sm">
-          <span className="text-canvas">{formatIndex(index)}</span>
-          <span className="text-mist"> / {formatIndex(total - 1)}</span>
+          <span className="text-accent">{formatIndex(index)}</span>
+          <span className="text-silver"> / {formatIndex(total - 1)}</span>
         </p>
         <button ref={closeRef} type="button" onClick={onClose} aria-label="Close gallery" className={controlClass}>
           <X aria-hidden className="size-5" />
@@ -71,7 +71,7 @@ export function Lightbox({ images, index, onClose, onNavigate }: LightboxProps) 
             className="animate-rise object-contain [animation-duration:0.7s]"
           />
         </div>
-        <figcaption className="mt-5 text-center text-sm text-mist">{image.alt}</figcaption>
+        <figcaption className="mt-5 text-center text-sm text-silver">{image.alt}</figcaption>
       </figure>
 
       <div className="gutter flex shrink-0 items-center justify-center gap-2 pb-8">

@@ -9,56 +9,53 @@ function toAnchor(title: string) {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }
 
-/** Full FAQ page: sticky topic pills and a help card on the left, grouped question cards on the right. */
+/** Full FAQ page: sticky chapter index on the left, grouped accordions on the right. */
 export function FaqList() {
   return (
     <Section>
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
-        <aside className="lg:sticky lg:top-[calc(var(--header-height)_+_2rem)] lg:col-span-4 lg:self-start">
+      <div className="grid gap-16 lg:grid-cols-12 lg:gap-10">
+        <aside className="lg:col-span-3 lg:self-start lg:sticky lg:top-[calc(var(--header-height)+2rem)]">
           <nav aria-label="FAQ topics">
             <Eyebrow className="mb-6">Topics</Eyebrow>
-            <ol className="flex flex-wrap gap-2 lg:flex-col">
+            <ol className="border-t border-line">
               {FAQ_GROUPS.map((group, i) => (
-                <li key={group.title}>
+                <li key={group.title} className="border-b border-line">
                   <a
                     href={`#${toAnchor(group.title)}`}
-                    className="type-nav flex items-center gap-3 rounded-full border border-line px-4 py-2.5 transition-colors duration-500 hover:border-forest hover:bg-forest hover:text-canvas lg:justify-between lg:px-5 lg:py-3.5"
+                    className="flex items-baseline gap-4 py-4 transition-colors duration-500 hover:text-accent"
                   >
-                    <span className="flex items-center gap-3">
-                      <span className="type-number text-xs text-muted">{formatIndex(i)}</span>
-                      {group.title}
-                    </span>
-                    <span className="type-number hidden text-xs text-muted lg:inline">
-                      {group.items.length} {group.items.length === 1 ? "question" : "questions"}
-                    </span>
+                    <span className="type-number text-xs text-accent">{formatIndex(i)}</span>
+                    <span className="type-nav">{group.title}</span>
                   </a>
                 </li>
               ))}
             </ol>
           </nav>
 
-          <div className="mt-8 hidden rounded-panel bg-forest p-8 text-canvas lg:block">
-            <p className="type-h3">Still have a question?</p>
-            <p className="mt-3 text-mist">Our team is happy to help.</p>
+          <div className="mt-12 hidden bg-ink p-8 text-paper lg:block">
+            <p className="type-h4">Still have a question?</p>
+            <p className="mt-3 text-sm text-silver">Our team is happy to help.</p>
             <a
               href={CONTACT.phoneHref}
-              className="type-nav mt-6 flex items-center gap-2 text-mist transition-colors hover:text-canvas"
+              className="type-nav mt-6 flex items-center gap-2 text-silver transition-colors hover:text-paper"
             >
-              <Phone aria-hidden className="size-3.5 text-ochre-soft" />
+              <Phone aria-hidden className="size-3.5 text-accent" />
               {CONTACT.phone}
             </a>
-            <ButtonLink href={ROUTES.contact} variant="accent" className="mt-8 w-full justify-between">
+            <ButtonLink href={ROUTES.contact} className="mt-6 w-full">
               Contact us
             </ButtonLink>
           </div>
         </aside>
 
-        <div className="space-y-16 lg:col-span-8 lg:space-y-24">
+        <div className="space-y-20 lg:col-span-8 lg:col-start-5 lg:space-y-28">
           {FAQ_GROUPS.map((group, i) => (
             <section key={group.title} id={toAnchor(group.title)} className="scroll-mt-(--header-height)">
-              <Reveal className="mb-8 flex items-baseline gap-4">
-                <span className="type-number text-sm text-muted">{formatIndex(i)}</span>
-                <h2 className="type-h2">{group.title}</h2>
+              <Reveal>
+                <Eyebrow index={formatIndex(i)} className="mb-5">
+                  Topic
+                </Eyebrow>
+                <h2 className="type-h2 mb-10">{group.title}</h2>
               </Reveal>
               <Reveal delay={100}>
                 <Accordion items={group.items} defaultOpen={i === 0 ? 0 : null} />
