@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ButtonLink, Eyebrow, TextLink } from "@/components/ui";
+import { ButtonLink, Container, Eyebrow, TextLink } from "@/components/ui";
 import { ROUTES } from "@/constants/routes";
 
 export const metadata: Metadata = {
@@ -9,41 +9,42 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <section className="p-(--frame)">
-      <div className="relative isolate flex min-h-[calc(max(100svh,640px)_-_2_*_var(--frame))] items-center justify-center overflow-hidden rounded-panel bg-forest px-(--gutter) pt-(--header-height) text-center text-canvas">
-        <Image
-          src="/images/hero-not-found.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="-z-20 animate-hero-zoom object-cover"
-        />
-        <div aria-hidden className="absolute inset-0 -z-10 bg-forest/75" />
+    <section className="relative isolate flex min-h-[max(100svh,640px)] items-end overflow-hidden bg-ink text-paper">
+      <Image
+        src="/images/hero-not-found.jpg"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="animate-hero-zoom -z-20 object-cover"
+      />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-linear-to-t from-ink via-ink/70 to-ink/30" />
 
-        <div className="flex max-w-[40rem] flex-col items-center py-16">
-          <p aria-hidden className="type-display-xl serif-italic animate-rise text-ochre-soft">
-            404
-          </p>
-          <Eyebrow inverse className="mt-8 animate-rise [animation-delay:120ms]">
-            Page not found
-          </Eyebrow>
-          <h1 className="type-h2 mt-6 animate-rise text-balance [animation-delay:200ms]">
-            This page isn&apos;t in the shipment.
-          </h1>
-          <p className="type-lead mt-5 animate-rise text-mist [animation-delay:280ms]">
-            The page you are looking for may have moved or no longer exists.
-          </p>
-          <div className="mt-10 flex animate-rise flex-wrap items-center justify-center gap-8 [animation-delay:360ms]">
-            <ButtonLink href={ROUTES.home} variant="accent">
-              Back to home
-            </ButtonLink>
-            <TextLink href={ROUTES.products} className="text-canvas">
-              Explore products
-            </TextLink>
+      <Container className="pt-(--header-height) pb-16 lg:pb-24">
+        <p
+          aria-hidden
+          className="type-display-xl animate-rise text-transparent [-webkit-text-stroke:1px_var(--color-silver)]"
+        >
+          404
+        </p>
+        <div className="mt-10 grid gap-10 border-t border-line-inverse pt-10 lg:grid-cols-12">
+          <div className="animate-rise [animation-delay:120ms] lg:col-span-7">
+            <Eyebrow inverse className="mb-6">
+              Page not found
+            </Eyebrow>
+            <h1 className="type-h2 text-balance">This page isn&apos;t in the shipment.</h1>
+          </div>
+          <div className="animate-rise [animation-delay:240ms] lg:col-span-4 lg:col-start-9">
+            <p className="type-lead text-silver">
+              The page you are looking for may have moved or no longer exists.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-8">
+              <ButtonLink href={ROUTES.home}>Back to home</ButtonLink>
+              <TextLink href={ROUTES.products}>Explore products</TextLink>
+            </div>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

@@ -172,27 +172,27 @@ export default function CreditsPage() {
 
       <Section>
         <div className="max-w-[64rem]">
-          <p className="type-lead text-muted">
+          <p className="type-lead text-steel">
             CC BY and CC BY-SA images are used under the terms of their respective licences. Public-domain and CC0
             images are used without attribution requirements. Images may have been cropped or resized for layout;
             adaptations of CC BY-SA images remain available under the same licence. These photographs are
             placeholders and should be replaced with Nigat Export&apos;s own photography before launch.
           </p>
 
-          <ul className="mt-12 space-y-3">
+          <ul className="mt-12 border-t border-line">
             {CREDITS.map((credit) => (
-              <li key={credit.title} className="rounded-card bg-shell px-6 py-5 md:px-8">
+              <li key={credit.title} className="border-b border-line py-6">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
                   <div>
                     <p className="type-h4">{credit.title}</p>
-                    <p className="mt-1 text-sm text-muted">{credit.creator}</p>
+                    <p className="mt-1 text-sm text-steel">{credit.creator}</p>
                   </div>
-                  <p className="text-sm text-muted sm:text-right">
+                  <p className="text-sm text-steel sm:text-right">
                     <a
                       href={credit.licenseUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-ink underline decoration-line underline-offset-4 transition-colors hover:text-ochre"
+                      className="text-ink underline decoration-line underline-offset-4 transition-colors hover:text-accent"
                     >
                       {credit.license}
                     </a>
@@ -201,13 +201,13 @@ export default function CreditsPage() {
                       href={credit.source}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-ink underline decoration-line underline-offset-4 transition-colors hover:text-ochre"
+                      className="text-ink underline decoration-line underline-offset-4 transition-colors hover:text-accent"
                     >
                       Source
                     </a>
                   </p>
                 </div>
-                <p className="mt-3 text-sm text-muted">Used for: {credit.usedFor}</p>
+                <p className="mt-3 text-sm text-steel">Used for: {credit.usedFor}</p>
               </li>
             ))}
           </ul>
