@@ -1,0 +1,186 @@
+/*
+ * Adaptations required by the React/Next.js port. Everything visual comes from
+ * the untouched template stylesheets (custom.css + vendor); this file only
+ * bridges behaviour differences. Keep it small.
+ */
+
+/* Inter is self-hosted through next/font (see app/layout.tsx). */
+:root {
+  --default-font: var(--font-inter), "Inter", var(--font-ethiopic), sans-serif;
+}
+
+/*
+ * next/image always emits width/height attributes. A plain <img> in the
+ * original scaled proportionally, so let author CSS (any specificity) win and
+ * otherwise keep the intrinsic aspect ratio.
+ */
+:where(img[width][height]) {
+  height: auto;
+}
+
+/*
+ * WOW.js hid `.wow` elements from JavaScript; doing it in CSS (only when JS is
+ * running, see the `js` class set in <head>) avoids a flash before hydration.
+ */
+html.js .wow:not(.animated) {
+  visibility: hidden;
+}
+
+/* Headings stay hidden until GSAP has split them into characters. */
+html.js .text-anime-style-3:not(.is-split) {
+  visibility: hidden;
+}
+
+/* Keyboard users can open desktop dropdowns too (hover-only in the template). */
+.main-menu ul li:focus-within > ul {
+  visibility: visible;
+  opacity: 1;
+  transform: scale(1, 1);
+  padding: 5px 0;
+}
+
+/*
+ * SlickNav wrapped a parent item's original <a> inside another <a>; React
+ * cannot render nested links, so the label is a <span> styled like that link.
+ */
+.slicknav_nav .slicknav_row .slicknav_parent-label {
+  position: relative;
+  display: inline;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 0;
+  color: var(--primary-color);
+  line-height: normal;
+  margin: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.slicknav_nav .slicknav_row .slicknav_parent-label:hover {
+  color: var(--white-color);
+}
+
+/* Back-to-top button (components/ui/BackToTop.tsx): bottom-right, as users expect. */
+.back-to-top {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent-color);
+  color: var(--primary-color);
+  font-size: 18px;
+  box-shadow: 0 6px 20px rgba(18, 34, 59, 0.25);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease,
+    background-color 0.3s ease, color 0.3s ease;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  background: var(--primary-color);
+  color: var(--white-color);
+}
+
+.back-to-top:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  .back-to-top {
+    right: 16px;
+    bottom: 16px;
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top {
+    transition: none;
+  }
+}
+
+/* Brand logo: PNG mark + company name stacked on three lines (header + footer). */
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.site-logo .site-logo-mark {
+  width: auto;
+  height: 50px;
+}
+
+.site-logo-text {
+  display: flex;
+  flex-direction: column;
+  color: var(--white-color);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+/* EN / አማ language toggle in the header (visible on desktop and mobile). */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 20px;
+  padding: 3px;
+  border: 1px solid var(--dark-divider-color);
+  border-radius: 100px;
+}
+
+.lang-switcher button {
+  border: 0;
+  border-radius: 100px;
+  background: transparent;
+  color: var(--white-color);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.lang-switcher button:hover {
+  color: var(--accent-color);
+}
+
+.lang-switcher button.active {
+  background: var(--accent-color);
+  color: var(--white-color);
+}
+
+@media only screen and (max-width: 991px) {
+  .lang-switcher {
+    margin-left: auto;
+    margin-right: 15px;
+  }
+
+  .lang-switcher button {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+}

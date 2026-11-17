@@ -1,0 +1,14 @@
+/*
+ * Global stylesheet, in the same order the original pages linked them.
+ * Font Awesome (7.3.0, as in the template) and Swiper come from npm so their
+ * webfonts/CSS match the installed versions; the rest are the original files.
+ */
+@import "../styles/vendor/bootstrap.min.css";
+@import "../styles/vendor/slicknav.min.css";
+@import "swiper/css/bundle";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "../styles/vendor/animate.css";
+@import "../styles/vendor/magnific-popup.css";
+@import "../styles/vendor/mousecursor.css";
+@import "../styles/custom.css";
+@import "../styles/overrides.css";
