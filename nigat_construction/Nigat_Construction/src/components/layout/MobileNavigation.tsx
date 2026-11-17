@@ -4,6 +4,8 @@ import Link from "next/link";
 import { createContext, useContext, useState, type KeyboardEvent, type ReactNode } from "react";
 
 import { MAIN_NAVIGATION } from "@/constants/navigation";
+import { groupNavigation } from "@/constants/nigat-group";
+import { ROUTES } from "@/constants/routes";
 import { useCollapse } from "@/hooks/useCollapse";
 import { useI18n } from "@/i18n/I18nProvider";
 import type { NavItem } from "@/types";
@@ -130,6 +132,32 @@ function ParentItem({ item, onNavigate }: { item: NavItem; onNavigate: () => voi
   );
 }
 
+/** "Nigat Group" row: the three sector sites, the current one highlighted. */
+function GroupRow({ onNavigate }: { onNavigate: () => void }) {
+  const { locale, dict } = useI18n();
+  const { groupName, sectors } = groupNavigation(locale, ROUTES.home);
+  return (
+    <li className="nav-item mobile-group" role="none">
+      <span className="mobile-group-title">{groupName}</span>
+      <div className="mobile-group-links" role="group" aria-label={dict.group.sectors}>
+        {sectors.map((sector) => (
+          <Link
+            key={sector.key}
+            href={sector.href}
+            role="menuitem"
+            className={sector.current ? "is-current" : undefined}
+            aria-current={sector.current ? "page" : undefined}
+            onClick={onNavigate}
+          >
+            {sector.name}
+            {!sector.current && <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" />}
+          </Link>
+        ))}
+      </div>
+    </li>
+  );
+}
+
 export function MobileMenu() {
   const { open, close } = useMobileMenu();
   const { dict } = useI18n();
@@ -147,6 +175,7 @@ export function MobileMenu() {
             </li>
           ),
         )}
+        <GroupRow onNavigate={close} />
       </SlideList>
     </div>
   );

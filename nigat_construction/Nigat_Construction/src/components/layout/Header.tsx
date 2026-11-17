@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { GroupSwitcher } from "@/components/layout/GroupSwitcher";
 import { MobileMenu, MobileMenuProvider, MobileMenuToggle } from "@/components/layout/MobileNavigation";
 import { Navigation } from "@/components/layout/Navigation";
 import { SiteLogo } from "@/components/layout/SiteLogo";
@@ -24,6 +25,7 @@ export async function Header() {
                 <div className="nav-menu-wrapper">
                   <Navigation />
                 </div>
+                <GroupSwitcher />
                 <div className="header-btn">
                   <Link href={ROUTES.contact} className="btn-default btn-highlighted">
                     {t.common.bookNow}

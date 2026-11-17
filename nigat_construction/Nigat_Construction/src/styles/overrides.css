@@ -184,3 +184,243 @@ html.js .text-anime-style-3:not(.is-split) {
     padding: 6px 10px;
   }
 }
+
+/*
+ * Nigat Group navigation (constants/nigat-group.ts). Built from the template's
+ * own menu/footer styles; these rules only size and arrange the new pieces.
+ */
+
+/* Header switcher: a `.submenu` item, so hover/focus opening is the template's. */
+.main-menu .group-switcher > li {
+  margin: 0 10px 0 0;
+}
+
+.main-menu .group-switcher-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2em;
+  padding: 12px 10px;
+  color: var(--white-color);
+  background: transparent;
+  border: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.main-menu .group-switcher-toggle::after {
+  content: "\f107";
+  font-family: "FontAwesome";
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.main-menu .group-switcher > li:hover > .group-switcher-toggle,
+.main-menu .group-switcher-toggle:focus-visible {
+  color: var(--accent-color);
+}
+
+/* Beats the template's `li.submenu:first-child ul { width: 235px }`. */
+.main-menu .group-switcher > li.submenu:first-child > ul {
+  left: auto;
+  right: 0;
+  width: 340px;
+}
+
+.main-menu .group-switcher .group-sector-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  white-space: normal;
+}
+
+.main-menu .group-switcher .group-sector-no {
+  font-size: 14px;
+  line-height: 1.6em;
+  color: var(--white-color);
+}
+
+.main-menu .group-switcher .group-sector-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.main-menu .group-switcher .group-sector-name i {
+  font-size: 11px;
+  margin-left: 6px;
+}
+
+.main-menu .group-switcher .group-sector-desc,
+.main-menu .group-switcher .group-sector-here {
+  text-transform: none;
+}
+
+.main-menu .group-switcher .group-sector-desc {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4em;
+}
+
+.group-sector-here,
+.footer-group-here {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 5px 10px;
+  border-radius: 100px;
+  background: var(--primary-color);
+  color: var(--white-color);
+}
+
+@media only screen and (max-width: 1199px) {
+  .main-menu .group-switcher-label {
+    display: none;
+  }
+}
+
+/* Mobile menu row. */
+.slicknav_nav .mobile-group {
+  border-top: 1px solid var(--divider-color);
+  margin-top: 5px;
+  padding: 12px 20px 6px;
+}
+
+.slicknav_nav .mobile-group-title {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white-color);
+  margin-bottom: 8px;
+}
+
+.slicknav_nav .mobile-group-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.slicknav_nav .mobile-group-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  padding: 5px 12px;
+  border: 1px solid var(--primary-color);
+  border-radius: 100px !important;
+}
+
+.slicknav_nav .mobile-group-links a i {
+  font-size: 10px;
+}
+
+.slicknav_nav .mobile-group-links a.is-current {
+  background: var(--primary-color);
+  color: var(--white-color);
+}
+
+/* Footer: the opening-hours row's icon-font icon, sized like the SVG icons. */
+.footer-links-box .footer-contact-box .footer-contact-icon {
+  width: 24px;
+  font-size: 20px;
+  text-align: center;
+  color: var(--white-color);
+  flex-shrink: 0;
+}
+
+/* Footer group band. */
+.footer-group {
+  border-top: 1px solid var(--dark-divider-color);
+  margin-top: 60px;
+  padding-top: 40px;
+}
+
+.footer-group-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 20px;
+  margin-bottom: 30px;
+}
+
+.footer-group-header h2 {
+  font-size: 20px;
+  color: var(--white-color);
+  margin: 0;
+}
+
+.footer-group-header p {
+  color: var(--white-color);
+  opacity: 0.7;
+  margin: 0;
+}
+
+.footer-group-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-group-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.footer-group-no {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.footer-group-list h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.footer-group-list h3 a {
+  color: var(--white-color);
+  transition: all 0.4s ease-in-out;
+}
+
+.footer-group-list h3 a:hover,
+.footer-group-list li.is-current h3 a {
+  color: var(--accent-color);
+}
+
+.footer-group-list h3 a i {
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.footer-group-list p {
+  color: var(--white-color);
+  opacity: 0.7;
+  margin: 0;
+}
+
+.footer-group-here {
+  background: var(--accent-color);
+}
+
+@media only screen and (max-width: 767px) {
+  .footer-group {
+    margin-top: 40px;
+    padding-top: 30px;
+  }
+
+  .footer-group-list {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+}

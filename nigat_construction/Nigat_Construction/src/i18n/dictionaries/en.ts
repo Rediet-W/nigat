@@ -89,6 +89,8 @@ export const en = {
     previous: "Previous (Left arrow key)",
     next: "Next (Right arrow key)",
     address: "Addis Ababa",
+    /** Ethiopian clock 3:00–11:00 = 9:00 AM–5:00 PM international time. */
+    hours: "9:00 AM – 5:00 PM",
     copyright: "Copyright © 2026 Nigat Fanawi Trading PLC. All Rights Reserved.",
     connect: "Let's connect and start building your project today.",
     teamIntro:
@@ -111,6 +113,11 @@ export const en = {
     emailPlaceholder: "Enter Email Address*",
     emailLabel: "Email address",
     subscribe: "Subscribe",
+  },
+  group: {
+    tagline: "Nigat Fanawi Trading PLC — one parent company, three sectors.",
+    youAreHere: "You are here",
+    sectors: "Nigat Group sectors",
   },
   form: {
     firstName: "First Name",

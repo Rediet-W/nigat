@@ -16,8 +16,8 @@
  */
 const SECTOR_URLS = {
   construction: "https://nigat-construction.vercel.app/",
-  motors: "https://motors.nigat.example",
-  exports: "https://exports.nigat.example",
+  motors: "https://nigat-motors.vercel.app/",
+  exports: "https://nigat-exports.vercel.app/",
 };
 
 /** The sector this website belongs to. */

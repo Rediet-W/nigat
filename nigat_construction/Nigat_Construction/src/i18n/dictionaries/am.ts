@@ -72,6 +72,7 @@ export const am: Dictionary = {
     previous: "ቀዳሚ (የግራ ቀስት ቁልፍ)",
     next: "ቀጣይ (የቀኝ ቀስት ቁልፍ)",
     address: "አዲስ አበባ",
+    hours: "ከጠዋቱ 3:00 – ከቀኑ 11:00 ሰዓት",
     copyright: "የቅጂ መብት © 2026 Nigat Fanawi Trading PLC። መብቱ በሕግ የተጠበቀ ነው።",
     connect: "እንገናኝ፤ ፕሮጀክትዎን ዛሬውኑ መገንባት እንጀምር።",
     teamIntro:
@@ -94,6 +95,11 @@ export const am: Dictionary = {
     emailPlaceholder: "የኢሜይል አድራሻ ያስገቡ*",
     emailLabel: "የኢሜይል አድራሻ",
     subscribe: "ይመዝገቡ",
+  },
+  group: {
+    tagline: "Nigat Fanawi Trading PLC — አንድ እናት ኩባንያ፣ ሦስት ዘርፎች።",
+    youAreHere: "እዚህ ነዎት",
+    sectors: "የንጋት ግሩፕ ዘርፎች",
   },
   form: {
     firstName: "ስም",
