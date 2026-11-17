@@ -11,63 +11,49 @@ interface AboutManifestoProps {
   cta?: NavLink;
 }
 
-/**
- * Brand introduction as a bento grid: a wide intro card, a tall photo card,
- * and two photo cards beneath (one per topic).
- */
+/** Brand introduction: title beside a large statement, then three staggered photo columns. */
 export function AboutManifesto({ index, cta }: AboutManifestoProps) {
   return (
     <Section>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Reveal className="flex flex-col justify-between gap-12 rounded-panel bg-sand p-8 md:p-12 lg:col-span-2">
-          <div>
-            <Eyebrow index={index} className="mb-8">
-              About Nigat Export
-            </Eyebrow>
-            <h2 className="type-display max-w-[14ch] text-balance">{ABOUT_INTRO.title}</h2>
-          </div>
-          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <p className="type-lead max-w-[34rem] text-muted">{ABOUT_INTRO.lead}</p>
-            {cta && (
-              <TextLink href={cta.href} className="shrink-0">
-                {cta.label}
-              </TextLink>
-            )}
-          </div>
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+        <Reveal className="lg:col-span-4">
+          <Eyebrow index={index} className="mb-6 lg:mb-8">
+            About Nigat Export
+          </Eyebrow>
+          <h2 className="type-h2 text-balance">{ABOUT_INTRO.title}</h2>
         </Reveal>
+        <Reveal delay={120} className="lg:col-span-7 lg:col-start-6 lg:pt-14">
+          <p className="type-statement text-balance">{ABOUT_INTRO.lead}</p>
+          {cta && (
+            <TextLink href={cta.href} className="mt-10">
+              {cta.label}
+            </TextLink>
+          )}
+        </Reveal>
+      </div>
 
+      <ol className="mt-20 grid grid-cols-1 gap-14 md:grid-cols-3 md:gap-8 lg:mt-28 lg:gap-10">
         {ABOUT_TOPICS.map((topic, i) => (
-          <Reveal
-            as="article"
-            variant="mask"
-            key={topic.title}
-            delay={i * 120}
-            className={cn(
-              "relative isolate flex flex-col justify-between overflow-hidden rounded-panel bg-forest p-7 text-canvas md:p-8",
-              i === 0 ? "min-h-[30rem] lg:row-span-2" : "min-h-[24rem]",
-            )}
-          >
-            <Image
-              src={topic.image}
-              alt={topic.imageAlt}
-              fill
-              sizes="(min-width: 1024px) 33vw, 100vw"
-              className="-z-20 object-cover"
-            />
-            <div
-              aria-hidden
-              className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgb(16_38_26/0.92)_0%,rgb(16_38_26/0.15)_60%,rgb(16_38_26/0.25)_100%)]"
-            />
-            <span className="type-number self-start rounded-full border border-line-inverse bg-forest/30 px-3 py-1 text-sm backdrop-blur-md">
-              {formatIndex(i)}
-            </span>
-            <div>
-              <h3 className="type-h3">{topic.title}</h3>
-              <p className="mt-3 max-w-[26rem] text-canvas/80">{topic.description}</p>
+          <Reveal as="li" key={topic.title} delay={i * 120} className={cn("group", i === 1 && "md:mt-20")}>
+            <figure className="photo-zoom relative aspect-[4/5] overflow-hidden bg-bone">
+              <Image
+                src={topic.image}
+                alt={topic.imageAlt}
+                fill
+                sizes="(min-width: 768px) 33vw, 100vw"
+                className="object-cover"
+              />
+            </figure>
+            <div className="mt-6 grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 border-t border-ink pt-5">
+              <span className="type-h2 text-accent">{formatIndex(i)}</span>
+              <div className="pt-1">
+                <h3 className="type-h3">{topic.title}</h3>
+                <p className="mt-2 text-steel">{topic.description}</p>
+              </div>
             </div>
           </Reveal>
         ))}
-      </div>
+      </ol>
     </Section>
   );
 }
