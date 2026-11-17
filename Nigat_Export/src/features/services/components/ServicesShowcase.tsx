@@ -1,62 +1,46 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Check } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
+import { cn } from "@/lib/cn";
 import { formatIndex } from "@/lib/format";
 import { Reveal, Section, TextLink } from "@/components/ui";
 import { SERVICES } from "../data/services";
 
-/** Services page: a two-column grid of rounded service cards. */
+/** Services page: a two-by-two grid of service sheets, the second column set lower. */
 export function ServicesShowcase() {
   return (
     <Section>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-x-10 gap-y-20 md:grid-cols-2 lg:gap-x-16">
         {SERVICES.map((service, i) => {
           const href = ROUTES.service(service.slug);
 
           return (
-            <Reveal
-              as="article"
-              key={service.slug}
-              delay={(i % 2) * 120}
-              className="group flex flex-col rounded-panel bg-shell p-3 md:p-4"
-            >
+            <Reveal as="article" key={service.slug} delay={(i % 2) * 120} className={cn("group", i % 2 === 1 && "md:mt-28")}>
               <Link href={href} tabIndex={-1} aria-hidden className="block">
-                <figure className="photo-zoom relative aspect-[16/10] overflow-hidden rounded-card bg-sand">
-                  <Image
-                    src={service.image}
-                    alt=""
-                    fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-cover"
-                  />
-                  <span className="type-number absolute top-4 left-4 rounded-full bg-shell/85 px-3 py-1 text-sm text-ink backdrop-blur-md">
+                <figure className="photo-zoom relative aspect-[16/11] overflow-hidden bg-bone">
+                  <Image src={service.image} alt="" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
+                  <figcaption className="type-number absolute top-0 left-0 bg-accent px-3 py-2 text-ink">
                     {formatIndex(i)}
-                  </span>
+                  </figcaption>
                 </figure>
               </Link>
-
-              <div className="flex flex-1 flex-col p-4 md:p-6 lg:p-8">
-                <h2 className="type-h2 text-balance">
-                  <Link href={href} className="transition-colors duration-500 hover:text-ochre">
-                    {service.title}
-                  </Link>
-                </h2>
-                <p className="type-lead mt-4 text-muted">{service.excerpt}</p>
-                <ul className="mt-8 space-y-3">
-                  {service.highlights.slice(0, 3).map((highlight) => (
-                    <li key={highlight} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-sand text-ochre">
-                        <Check aria-hidden className="size-3" strokeWidth={2.5} />
-                      </span>
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
-                <TextLink href={href} className="mt-auto self-start pt-10">
-                  Explore {service.title}
-                </TextLink>
-              </div>
+              <h2 className="type-h2 mt-8 text-balance">
+                <Link href={href} className="transition-colors duration-500 hover:text-accent">
+                  {service.title}
+                </Link>
+              </h2>
+              <p className="type-lead mt-5 text-steel">{service.excerpt}</p>
+              <ul className="mt-8 border-t border-ink">
+                {service.highlights.slice(0, 3).map((highlight) => (
+                  <li key={highlight} className="flex gap-4 border-b border-line py-3.5 text-sm font-medium">
+                    <span aria-hidden className="mt-2 h-px w-4 shrink-0 bg-accent" />
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+              <TextLink href={href} className="mt-8">
+                Explore {service.title}
+              </TextLink>
             </Reveal>
           );
         })}

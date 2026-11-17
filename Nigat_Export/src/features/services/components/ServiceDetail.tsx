@@ -1,53 +1,54 @@
-import { Check, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
 import { CONTACT } from "@/constants/site";
+import { formatIndex } from "@/lib/format";
 import { ButtonLink, Eyebrow, NumberedSteps, Reveal, Section, SectionHeading } from "@/components/ui";
 import type { Service } from "@/types";
 import { SERVICE_PROCESS } from "../data/services";
 
-/** Service detail body: overview beside a sticky "at a glance" card, then the process. */
+/** Service detail body: editorial overview with a sticky "at a glance" sheet, then the process. */
 export function ServiceDetail({ service }: { service: Service }) {
   const [intro, ...rest] = service.overview;
 
   return (
     <>
       <Section>
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
             <Reveal>
-              <Eyebrow className="mb-8">Overview</Eyebrow>
+              <Eyebrow className="mb-8">
+                Overview
+              </Eyebrow>
               <p className="type-statement text-balance">{intro}</p>
             </Reveal>
             {rest.map((paragraph) => (
               <Reveal key={paragraph}>
-                <p className="type-lead mt-8 max-w-[40rem] text-muted">{paragraph}</p>
+                <p className="type-lead mt-8 max-w-[40rem] text-steel">{paragraph}</p>
               </Reveal>
             ))}
           </div>
 
           <Reveal as="aside" delay={150} className="lg:col-span-4 lg:col-start-9">
-            <div className="rounded-panel bg-forest p-8 text-canvas lg:sticky lg:top-[calc(var(--header-height)_+_1.5rem)] lg:p-10">
+            <div className="bg-ink p-8 text-paper lg:sticky lg:top-[calc(var(--header-height)+2rem)] lg:p-10">
               <Eyebrow inverse className="mb-8">
                 At a glance
               </Eyebrow>
-              <ul className="space-y-4">
-                {service.highlights.map((highlight) => (
-                  <li key={highlight} className="flex items-start gap-3">
-                    <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-ochre-soft text-forest">
-                      <Check aria-hidden className="size-3.5" strokeWidth={2.5} />
-                    </span>
-                    <span>{highlight}</span>
+              <ol className="border-t border-line-inverse">
+                {service.highlights.map((highlight, i) => (
+                  <li key={highlight} className="flex gap-4 border-b border-line-inverse py-4">
+                    <span className="type-number pt-0.5 text-xs text-accent">{formatIndex(i)}</span>
+                    <span className="font-medium">{highlight}</span>
                   </li>
                 ))}
-              </ul>
-              <ButtonLink href={ROUTES.enquire(service.slug)} variant="accent" className="mt-10 w-full justify-between">
+              </ol>
+              <ButtonLink href={ROUTES.enquire(service.slug)} className="mt-10 w-full">
                 Enquire about this service
               </ButtonLink>
               <a
                 href={CONTACT.phoneHref}
-                className="type-nav mt-6 flex items-center justify-center gap-2 text-mist transition-colors hover:text-canvas"
+                className="type-nav mt-6 flex items-center justify-center gap-2 text-silver transition-colors hover:text-paper"
               >
-                <Phone aria-hidden className="size-3.5 text-ochre-soft" />
+                <Phone aria-hidden className="size-3.5 text-accent" />
                 {CONTACT.phone}
               </a>
             </div>
@@ -55,7 +56,7 @@ export function ServiceDetail({ service }: { service: Service }) {
         </div>
       </Section>
 
-      <Section tone="forest" inset>
+      <Section tone="graphite">
         <SectionHeading
           inverse
           eyebrow="How it works"
