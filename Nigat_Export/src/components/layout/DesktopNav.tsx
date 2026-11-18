@@ -10,15 +10,17 @@ import { ActivePath, isActivePath } from "./ActivePath";
 
 interface DesktopNavProps {
   items: NavItem[];
+  /** Accessible name of the menu ("Main"). */
+  label: string;
 }
 
 /**
  * Uppercase menu beside the logo (≥ 1024px). Items with children open a
  * full-width panel beneath the header on hover or keyboard focus.
  */
-export function DesktopNav({ items }: DesktopNavProps) {
+export function DesktopNav({ items, label }: DesktopNavProps) {
   return (
-    <nav aria-label="Main" className="hidden h-full lg:block">
+    <nav aria-label={label} className="hidden h-full lg:block">
       <ActivePath>
         {(pathname) => (
           <ul className="flex h-full items-center gap-6 xl:gap-9">
@@ -32,7 +34,7 @@ export function DesktopNav({ items }: DesktopNavProps) {
                     aria-current={active ? "page" : undefined}
                     aria-haspopup={item.children ? "true" : undefined}
                     className={cn(
-                      "nav-link type-nav transition-colors duration-500",
+                      "nav-link type-nav whitespace-nowrap transition-colors duration-500",
                       active ? "text-ink" : "text-steel hover:text-ink",
                     )}
                   >

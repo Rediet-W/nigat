@@ -1,14 +1,18 @@
 import Image from "next/image";
 import { formatIndex } from "@/lib/format";
 import { Reveal, Section, SectionHeading } from "@/components/ui";
-import { PRINCIPLES } from "../data/about";
+import { getDictionary } from "@/i18n/server";
+import { getAboutContent } from "../data/about";
 
 interface PrinciplesBandProps {
   index?: string;
 }
 
 /** Brand principles as large numbered rows beside a tall framed landscape. */
-export function PrinciplesBand({ index }: PrinciplesBandProps) {
+export async function PrinciplesBand({ index }: PrinciplesBandProps) {
+  const { locale, t } = await getDictionary();
+  const principles = getAboutContent(locale).principles;
+
   return (
     <Section>
       <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-10">
@@ -19,9 +23,9 @@ export function PrinciplesBand({ index }: PrinciplesBandProps) {
         </Reveal>
 
         <div className="lg:col-span-6 lg:col-start-7">
-          <SectionHeading index={index} eyebrow="Why Nigat Export" title="A clearer way to export from Ethiopia." />
+          <SectionHeading index={index} eyebrow={t.about.principlesEyebrow} title={t.about.principlesTitle} />
           <ol className="border-t border-ink">
-            {PRINCIPLES.map((principle, i) => (
+            {principles.map((principle, i) => (
               <Reveal
                 as="li"
                 key={principle.title}

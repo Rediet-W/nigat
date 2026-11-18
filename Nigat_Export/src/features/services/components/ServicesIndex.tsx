@@ -5,7 +5,8 @@ import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/cn";
 import { formatIndex } from "@/lib/format";
 import { Reveal, Section, SectionHeading, TextLink, type SectionTone } from "@/components/ui";
-import { SERVICES } from "../data/services";
+import { getDictionary } from "@/i18n/server";
+import { getServices } from "../data/services";
 
 interface ServicesIndexProps {
   index?: string;
@@ -25,14 +26,9 @@ const COLUMNS: Record<number, string> = {
  * The services as a chain of columns, read left to right from origin to
  * destination. A leaf-green rule draws across the top of the hovered column.
  */
-export function ServicesIndex({
-  index,
-  eyebrow = "Services",
-  title = "Support from origin to destination",
-  excludeSlug,
-  tone = "bone",
-}: ServicesIndexProps) {
-  const services = SERVICES.map((service, position) => ({ service, position })).filter(
+export async function ServicesIndex({ index, eyebrow, title, excludeSlug, tone = "bone" }: ServicesIndexProps) {
+  const { locale, t, href } = await getDictionary();
+  const services = getServices(locale).map((service, position) => ({ service, position })).filter(
     ({ service }) => service.slug !== excludeSlug,
   );
 
@@ -40,10 +36,10 @@ export function ServicesIndex({
     <Section tone={tone}>
       <SectionHeading
         index={index}
-        eyebrow={eyebrow}
-        title={title}
-        lead="Sourcing, preparation, quality and freight — support at every stage of the export chain."
-        action={<TextLink href={ROUTES.services}>All services</TextLink>}
+        eyebrow={eyebrow ?? t.services.indexEyebrow}
+        title={title ?? t.services.indexTitle}
+        lead={t.services.indexLead}
+        action={<TextLink href={href(ROUTES.services)}>{t.services.allServices}</TextLink>}
         layout="split"
       />
 
@@ -51,7 +47,7 @@ export function ServicesIndex({
         {services.map(({ service, position }, i) => (
           <Reveal as="li" key={service.slug} delay={i * 100}>
             <Link
-              href={ROUTES.service(service.slug)}
+              href={href(ROUTES.service(service.slug))}
               className="group relative flex h-full flex-col border-t border-ink pt-6 before:absolute before:-top-px before:left-0 before:h-0.5 before:w-full before:origin-left before:scale-x-0 before:bg-accent before:transition-transform before:duration-700 before:ease-drive hover:before:scale-x-100"
             >
               <span className="flex items-center justify-between">

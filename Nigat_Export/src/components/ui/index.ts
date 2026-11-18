@@ -4,6 +4,7 @@ export type { ButtonVariant } from "./Button";
 export { Container } from "./Container";
 export { Eyebrow } from "./Eyebrow";
 export { Logo } from "./Logo";
+export type { LogoProps } from "./Logo";
 export { NumberedSteps } from "./NumberedSteps";
 export { Reveal } from "./Reveal";
 export { Section } from "./Section";

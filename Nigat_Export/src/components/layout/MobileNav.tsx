@@ -2,22 +2,26 @@
 
 import Link from "next/link";
 import { useState, type CSSProperties } from "react";
-import { Mail, Phone, Plus } from "lucide-react";
+import { ArrowUpRight, Mail, Phone, Plus } from "lucide-react";
 import { CONTACT } from "@/constants/site";
 import type { NavItem, NavLink } from "@/types";
 import { cn } from "@/lib/cn";
 import { formatIndex } from "@/lib/format";
 import { ButtonLink, Container } from "@/components/ui";
+import type { Dictionary } from "@/i18n/dictionaries";
 import { ActivePath, isActivePath } from "./ActivePath";
+import type { GroupNavProps } from "./SectorSwitcher";
 
 interface MobileNavToggleProps {
   open: boolean;
   controls: string;
+  /** "Open menu" / "Close menu" in the current language. */
+  label: string;
   onToggle: () => void;
 }
 
 /** Two-line toggle that crosses into an X. */
-export function MobileNavToggle({ open, controls, onToggle }: MobileNavToggleProps) {
+export function MobileNavToggle({ open, controls, label, onToggle }: MobileNavToggleProps) {
   const line = "absolute left-1/2 h-px w-6 -translate-x-1/2 bg-current transition-all duration-500 ease-drive";
 
   return (
@@ -26,7 +30,7 @@ export function MobileNavToggle({ open, controls, onToggle }: MobileNavTogglePro
       onClick={onToggle}
       aria-expanded={open}
       aria-controls={controls}
-      aria-label={open ? "Close menu" : "Open menu"}
+      aria-label={label}
       className="relative flex size-11 items-center justify-center border border-line lg:hidden"
     >
       <span className={cn(line, open ? "top-1/2 rotate-45" : "top-[42%]")} />
@@ -40,13 +44,15 @@ interface MobileNavProps {
   open: boolean;
   items: NavItem[];
   cta: NavLink;
+  group: GroupNavProps;
+  t: Dictionary["nav"];
   onNavigate: () => void;
 }
 
 const stagger = (index: number) => ({ animationDelay: `${120 + index * 60}ms` }) as CSSProperties;
 
 /** Full-screen menu (< 1024px) with large numbered links. */
-export function MobileNav({ id, open, items, cta, onNavigate }: MobileNavProps) {
+export function MobileNav({ id, open, items, cta, group, t, onNavigate }: MobileNavProps) {
   const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
@@ -59,7 +65,7 @@ export function MobileNav({ id, open, items, cta, onNavigate }: MobileNavProps) 
       )}
     >
       <Container className="flex min-h-full flex-col justify-between gap-12 py-10">
-        <nav aria-label="Mobile">
+        <nav aria-label={t.mobileLabel}>
           <ActivePath>
             {(pathname) => (
               <ul>
@@ -91,7 +97,7 @@ export function MobileNav({ id, open, items, cta, onNavigate }: MobileNavProps) 
                             type="button"
                             onClick={() => setExpanded(isExpanded ? null : item.href)}
                             aria-expanded={isExpanded}
-                            aria-label={`${isExpanded ? "Hide" : "Show"} ${item.label}`}
+                            aria-label={(isExpanded ? t.hideChildren : t.showChildren).replace("{label}", item.label)}
                             className="flex size-10 items-center justify-center border border-line-inverse"
                           >
                             <Plus
@@ -126,6 +132,24 @@ export function MobileNav({ id, open, items, cta, onNavigate }: MobileNavProps) 
         </nav>
 
         <div className={cn("space-y-6", open && "animate-rise")} style={stagger(items.length)}>
+          <nav aria-label={group.groupName}>
+            <p className="type-eyebrow mb-3 text-silver">{group.groupName}</p>
+            <ul className="grid grid-cols-[repeat(3,auto)] gap-px border border-line-inverse bg-line-inverse">
+              {group.sectors.map((sector) => (
+                <li key={sector.key} className="bg-ink">
+                  <a
+                    href={sector.href}
+                    onClick={sector.current ? onNavigate : undefined}
+                    aria-current={sector.current ? "page" : undefined}
+                    className="type-nav flex min-h-11 items-center justify-center gap-1.5 px-1 py-3 text-center tracking-[0.04em] text-silver aria-[current=page]:text-accent"
+                  >
+                    {sector.shortName}
+                    {!sector.current && <ArrowUpRight aria-hidden className="size-3 shrink-0" />}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <div className="space-y-3 text-silver">
             <a href={CONTACT.phoneHref} className="flex items-center gap-3">
               <Phone aria-hidden className="size-4 text-accent" /> {CONTACT.phone}

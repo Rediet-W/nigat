@@ -34,8 +34,9 @@
   --color-error: #e5484d;
 
   /* Type */
-  --font-display: var(--font-shoulders), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  /* Noto Sans Ethiopic only supplies the Amharic (Ge'ez) glyphs; Latin text is unchanged. */
+  --font-display: var(--font-shoulders), var(--font-ethiopic), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-hanken), var(--font-ethiopic), ui-sans-serif, system-ui, sans-serif;
 
   /* Motion */
   --ease-drive: cubic-bezier(0.22, 1, 0.36, 1);

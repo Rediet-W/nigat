@@ -2,20 +2,25 @@ import Image from "next/image";
 import { ROUTES } from "@/constants/routes";
 import { formatIndex } from "@/lib/format";
 import { ButtonLink, Eyebrow, Reveal, Section, SpecList } from "@/components/ui";
-import { PRODUCT_CATEGORIES } from "../data/product-categories";
+import { fill } from "@/i18n/dictionaries";
+import { getDictionary } from "@/i18n/server";
+import { getProductCategories } from "../data/product-categories";
 
 /** Products page: a sticky category index beside a two-column grid of product sheets. */
-export function ProductShowcase() {
+export async function ProductShowcase() {
+  const { locale, t, href } = await getDictionary();
+  const categories = getProductCategories(locale);
+
   return (
     <Section>
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
         <nav
-          aria-label="Product categories"
+          aria-label={t.products.categoriesLabel}
           className="lg:sticky lg:top-[calc(var(--header-height)_+_2rem)] lg:col-span-3 lg:self-start"
         >
-          <Eyebrow className="mb-6">Categories</Eyebrow>
+          <Eyebrow className="mb-6">{t.products.categories}</Eyebrow>
           <ol className="flex flex-wrap gap-2 lg:block lg:border-t lg:border-ink">
-            {PRODUCT_CATEGORIES.map((category, i) => (
+            {categories.map((category, i) => (
               <li key={category.slug} className="lg:border-b lg:border-line">
                 <a
                   href={`#${category.slug}`}
@@ -30,7 +35,7 @@ export function ProductShowcase() {
         </nav>
 
         <div className="grid grid-cols-1 gap-x-10 gap-y-20 md:grid-cols-2 lg:col-span-9">
-          {PRODUCT_CATEGORIES.map((category, i) => (
+          {categories.map((category, i) => (
             <article key={category.slug} id={category.slug} className="flex scroll-mt-(--header-height) flex-col">
               <Reveal variant="mask">
                 <figure className="relative aspect-[4/3] overflow-hidden bg-bone">
@@ -52,12 +57,12 @@ export function ProductShowcase() {
                 <SpecList
                   className="mt-6"
                   rows={[
-                    { label: "Ideal for", value: category.idealFor },
-                    { label: "Availability", value: "On enquiry" },
+                    { label: t.products.idealFor, value: category.idealFor },
+                    { label: t.products.availability, value: t.products.onEnquiry },
                   ]}
                 />
-                <ButtonLink href={ROUTES.enquire(category.slug)} variant="dark" className="mt-8 self-start">
-                  Enquire about {category.name}
+                <ButtonLink href={href(ROUTES.enquire(category.slug))} variant="dark" className="mt-8 self-start">
+                  {fill(t.products.enquireAbout, { name: category.name })}
                 </ButtonLink>
               </Reveal>
             </article>

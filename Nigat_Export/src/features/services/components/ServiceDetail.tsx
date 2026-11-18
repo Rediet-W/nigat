@@ -4,10 +4,12 @@ import { CONTACT } from "@/constants/site";
 import { formatIndex } from "@/lib/format";
 import { ButtonLink, Eyebrow, NumberedSteps, Reveal, Section, SectionHeading } from "@/components/ui";
 import type { Service } from "@/types";
-import { SERVICE_PROCESS } from "../data/services";
+import { getDictionary } from "@/i18n/server";
+import { getServiceProcess } from "../data/services";
 
 /** Service detail body: editorial overview with a sticky "at a glance" sheet, then the process. */
-export function ServiceDetail({ service }: { service: Service }) {
+export async function ServiceDetail({ service }: { service: Service }) {
+  const { locale, t, href } = await getDictionary();
   const [intro, ...rest] = service.overview;
 
   return (
@@ -17,7 +19,7 @@ export function ServiceDetail({ service }: { service: Service }) {
           <div className="lg:col-span-7">
             <Reveal>
               <Eyebrow className="mb-8">
-                Overview
+                {t.services.overview}
               </Eyebrow>
               <p className="type-statement text-balance">{intro}</p>
             </Reveal>
@@ -31,7 +33,7 @@ export function ServiceDetail({ service }: { service: Service }) {
           <Reveal as="aside" delay={150} className="lg:col-span-4 lg:col-start-9">
             <div className="bg-ink p-8 text-paper lg:sticky lg:top-[calc(var(--header-height)+2rem)] lg:p-10">
               <Eyebrow inverse className="mb-8">
-                At a glance
+                {t.services.atAGlance}
               </Eyebrow>
               <ol className="border-t border-line-inverse">
                 {service.highlights.map((highlight, i) => (
@@ -41,8 +43,8 @@ export function ServiceDetail({ service }: { service: Service }) {
                   </li>
                 ))}
               </ol>
-              <ButtonLink href={ROUTES.enquire(service.slug)} className="mt-10 w-full">
-                Enquire about this service
+              <ButtonLink href={href(ROUTES.enquire(service.slug))} className="mt-10 w-full">
+                {t.services.enquire}
               </ButtonLink>
               <a
                 href={CONTACT.phoneHref}
@@ -59,12 +61,12 @@ export function ServiceDetail({ service }: { service: Service }) {
       <Section tone="graphite">
         <SectionHeading
           inverse
-          eyebrow="How it works"
-          title="From enquiry to arrival"
+          eyebrow={t.services.processEyebrow}
+          title={t.services.processTitle}
           layout="split"
-          lead="A clear, four-step process — so you always know what happens next."
+          lead={t.services.processLead}
         />
-        <NumberedSteps steps={SERVICE_PROCESS} inverse />
+        <NumberedSteps steps={getServiceProcess(locale)} inverse />
       </Section>
     </>
   );

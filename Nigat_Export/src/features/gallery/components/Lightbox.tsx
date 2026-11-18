@@ -5,10 +5,13 @@ import { useCallback, useEffect, useRef } from "react";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { useOverlay } from "@/hooks/useOverlay";
 import { formatIndex } from "@/lib/format";
+import type { Dictionary } from "@/i18n/dictionaries/en";
+import { fill } from "@/i18n/fill";
 import type { GalleryImage } from "@/types";
 
 interface LightboxProps {
   images: GalleryImage[];
+  t: Dictionary["gallery"];
   index: number;
   onClose: () => void;
   onNavigate: (index: number) => void;
@@ -18,7 +21,7 @@ const controlClass =
   "flex size-12 items-center justify-center border border-line-inverse text-paper transition-colors duration-500 hover:border-accent hover:bg-accent hover:text-ink";
 
 /** Full-screen viewer — Esc closes, ← / → navigate. */
-export function Lightbox({ images, index, onClose, onNavigate }: LightboxProps) {
+export function Lightbox({ images, t, index, onClose, onNavigate }: LightboxProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const image = images[index];
   const total = images.length;
@@ -47,7 +50,7 @@ export function Lightbox({ images, index, onClose, onNavigate }: LightboxProps) 
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={`Image ${index + 1} of ${total}: ${image.alt}`}
+      aria-label={fill(t.imageOf, { n: index + 1, total, alt: image.alt })}
       className="fixed inset-0 z-[100] flex flex-col bg-ink/97 text-paper backdrop-blur-sm"
     >
       <div className="gutter flex h-(--header-height) shrink-0 items-center justify-between">
@@ -55,7 +58,7 @@ export function Lightbox({ images, index, onClose, onNavigate }: LightboxProps) 
           <span className="text-accent">{formatIndex(index)}</span>
           <span className="text-silver"> / {formatIndex(total - 1)}</span>
         </p>
-        <button ref={closeRef} type="button" onClick={onClose} aria-label="Close gallery" className={controlClass}>
+        <button ref={closeRef} type="button" onClick={onClose} aria-label={t.close} className={controlClass}>
           <X aria-hidden className="size-5" />
         </button>
       </div>
@@ -75,10 +78,10 @@ export function Lightbox({ images, index, onClose, onNavigate }: LightboxProps) 
       </figure>
 
       <div className="gutter flex shrink-0 items-center justify-center gap-2 pb-8">
-        <button type="button" onClick={() => step(-1)} aria-label="Previous image" className={controlClass}>
+        <button type="button" onClick={() => step(-1)} aria-label={t.previous} className={controlClass}>
           <ArrowLeft aria-hidden className="size-5" />
         </button>
-        <button type="button" onClick={() => step(1)} aria-label="Next image" className={controlClass}>
+        <button type="button" onClick={() => step(1)} aria-label={t.next} className={controlClass}>
           <ArrowRight aria-hidden className="size-5" />
         </button>
       </div>

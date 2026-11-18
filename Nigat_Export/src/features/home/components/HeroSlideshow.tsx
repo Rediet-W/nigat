@@ -10,6 +10,8 @@ import type { HeroSlide } from "../data/hero-slides";
 interface HeroSlideshowProps {
   slides: HeroSlide[];
   duration: number;
+  /** Accessible name of the slide index ("Photographs"). */
+  label: string;
   /** The fixed hero copy (headline, lead, actions) laid over the photographs. */
   children: ReactNode;
 }
@@ -20,7 +22,7 @@ interface HeroSlideshowProps {
  * Each index entry selects its photo; the active one carries a leaf-green progress
  * rule. Reduced motion shows the first photo without rotation.
  */
-export function HeroSlideshow({ slides, duration, children }: HeroSlideshowProps) {
+export function HeroSlideshow({ slides, duration, label, children }: HeroSlideshowProps) {
   const [active, setActive] = useState(0);
   const [still, setStill] = useState(false);
 
@@ -80,7 +82,7 @@ export function HeroSlideshow({ slides, duration, children }: HeroSlideshowProps
             <span className="text-paper">{slides[active].label}</span>
           </p>
 
-          <ol aria-label="Photographs" className="grid grid-cols-2 gap-x-6 gap-y-3 md:grid-cols-4 lg:col-span-8">
+          <ol aria-label={label} className="grid grid-cols-2 gap-x-6 gap-y-3 md:grid-cols-4 lg:col-span-8">
             {slides.map((slide, index) => {
               const isActive = index === active;
               return (

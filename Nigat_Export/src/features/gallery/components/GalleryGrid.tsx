@@ -6,7 +6,9 @@ import { Plus } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { formatIndex } from "@/lib/format";
 import { Reveal } from "@/components/ui";
-import { GALLERY_IMAGES } from "../data/gallery";
+import type { Dictionary } from "@/i18n/dictionaries/en";
+import { fill } from "@/i18n/fill";
+import type { GalleryImage } from "@/types";
 import { Lightbox } from "./Lightbox";
 
 /**
@@ -23,20 +25,25 @@ const TILE_PATTERN = [
 ];
 
 /** Asymmetric photo grid; every tile opens the lightbox. */
-export function GalleryGrid() {
+interface GalleryGridProps {
+  images: GalleryImage[];
+  t: Dictionary["gallery"];
+}
+
+export function GalleryGrid({ images, t }: GalleryGridProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const close = useCallback(() => setActiveIndex(null), []);
 
   return (
     <>
       <ul className="grid gap-4 md:auto-rows-[clamp(11rem,17vw,17rem)] md:grid-cols-12 md:gap-5">
-        {GALLERY_IMAGES.map((image, index) => (
+        {images.map((image, index) => (
           <li key={image.src} className={cn("aspect-[4/3] md:aspect-auto", TILE_PATTERN[index % TILE_PATTERN.length])}>
             <Reveal variant="mask" delay={(index % 3) * 100} className="h-full">
               <button
                 type="button"
                 onClick={() => setActiveIndex(index)}
-                aria-label={`Open image ${index + 1}: ${image.alt}`}
+                aria-label={fill(t.openImage, { n: index + 1, alt: image.alt })}
                 className="group relative block size-full overflow-hidden bg-carbon text-left"
               >
                 <span className="photo-zoom absolute inset-0">
@@ -65,7 +72,7 @@ export function GalleryGrid() {
       </ul>
 
       {activeIndex !== null && (
-        <Lightbox images={GALLERY_IMAGES} index={activeIndex} onClose={close} onNavigate={setActiveIndex} />
+        <Lightbox images={images} t={t} index={activeIndex} onClose={close} onNavigate={setActiveIndex} />
       )}
     </>
   );

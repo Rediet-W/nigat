@@ -5,7 +5,8 @@ import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/cn";
 import { formatIndex } from "@/lib/format";
 import { Reveal, Section, SectionHeading, TextLink } from "@/components/ui";
-import { PRODUCT_CATEGORIES } from "../data/product-categories";
+import { getDictionary } from "@/i18n/server";
+import { getProductCategories } from "../data/product-categories";
 
 interface ProductMosaicProps {
   index?: string;
@@ -15,24 +16,26 @@ interface ProductMosaicProps {
 const TILES = ["lg:row-span-2", "", "", "", "", "lg:col-span-3"];
 
 /** Home page showcase on forest: the product categories as a photographic mosaic. */
-export function ProductMosaic({ index }: ProductMosaicProps) {
+export async function ProductMosaic({ index }: ProductMosaicProps) {
+  const { locale, t, href } = await getDictionary();
+
   return (
     <Section tone="ink">
       <SectionHeading
         inverse
         index={index}
-        eyebrow="What we export"
-        title="Ethiopian origin, prepared for your market"
-        lead="From highland coffee to staple cereals — start with the product, and our team will confirm grades, volumes and shipping."
-        action={<TextLink href={ROUTES.products}>View all products</TextLink>}
+        eyebrow={t.products.mosaicEyebrow}
+        title={t.products.mosaicTitle}
+        lead={t.products.mosaicLead}
+        action={<TextLink href={href(ROUTES.products)}>{t.products.viewAll}</TextLink>}
         layout="split"
       />
 
       <ul className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:auto-rows-[19rem] lg:grid-cols-3">
-        {PRODUCT_CATEGORIES.map((category, i) => (
+        {getProductCategories(locale).map((category, i) => (
           <Reveal as="li" key={category.slug} delay={(i % 3) * 100} className={cn("min-h-[22rem] lg:min-h-0", TILES[i])}>
             <Link
-              href={`${ROUTES.products}#${category.slug}`}
+              href={`${href(ROUTES.products)}#${category.slug}`}
               className="group relative flex h-full flex-col justify-end overflow-hidden bg-graphite p-6 lg:p-8"
             >
               <span className="photo-zoom absolute inset-0">

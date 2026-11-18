@@ -1,23 +1,26 @@
 import { NumberedSteps, Section, SectionHeading } from "@/components/ui";
-import { APPROACH_STEPS } from "../data/about";
+import { getDictionary } from "@/i18n/server";
+import { getAboutContent } from "../data/about";
 
 interface ApproachStepsProps {
   index?: string;
 }
 
 /** Three-stage approach rendered as a numbered route. */
-export function ApproachSteps({ index }: ApproachStepsProps) {
+export async function ApproachSteps({ index }: ApproachStepsProps) {
+  const { locale, t } = await getDictionary();
+
   return (
     <Section tone="graphite">
       <SectionHeading
         inverse
         index={index}
-        eyebrow="Our Approach"
-        title="A straightforward way to ship"
-        lead="However you work with us — samples, a trial order or a recurring contract — the process follows the same three stages."
+        eyebrow={t.about.approachEyebrow}
+        title={t.about.approachTitle}
+        lead={t.about.approachLead}
         layout="split"
       />
-      <NumberedSteps steps={APPROACH_STEPS} inverse />
+      <NumberedSteps steps={getAboutContent(locale).approach} inverse />
     </Section>
   );
 }

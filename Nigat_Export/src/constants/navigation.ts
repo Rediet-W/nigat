@@ -1,31 +1,45 @@
-import { SERVICES } from "@/features/services/data/services";
+import { getServices } from "@/features/services/data/services";
+import { localizePath, type Locale } from "@/i18n/config";
+import { DICTIONARIES } from "@/i18n/dictionaries";
 import type { NavItem, NavLink } from "@/types";
 import { ROUTES } from "./routes";
 
-const serviceLinks: NavLink[] = SERVICES.map((service) => ({
-  label: service.title,
-  href: ROUTES.service(service.slug),
-  description: service.excerpt,
-}));
+export interface Navigation {
+  main: NavItem[];
+  cta: NavLink;
+  footerExplore: NavLink[];
+  footerServices: NavLink[];
+}
 
-export const MAIN_NAV: NavItem[] = [
-  { label: "Home", href: ROUTES.home },
-  { label: "About", href: ROUTES.about },
-  { label: "Services", href: ROUTES.services, children: serviceLinks },
-  { label: "Products", href: ROUTES.products },
-  { label: "Gallery", href: ROUTES.gallery },
-  { label: "FAQs", href: ROUTES.faqs },
-];
+/** Every menu on the site, with labels and links in the given language. */
+export function getNavigation(locale: Locale): Navigation {
+  const t = DICTIONARIES[locale].nav;
+  const href = (path: string) => localizePath(locale, path);
 
-export const HEADER_CTA: NavLink = { label: "Request a quote", href: ROUTES.contact };
+  const serviceLinks: NavLink[] = getServices(locale).map((service) => ({
+    label: service.title,
+    href: href(ROUTES.service(service.slug)),
+    description: service.excerpt,
+  }));
 
-export const FOOTER_EXPLORE_LINKS: NavLink[] = [
-  { label: "Home", href: ROUTES.home },
-  { label: "About", href: ROUTES.about },
-  { label: "Products", href: ROUTES.products },
-  { label: "Gallery", href: ROUTES.gallery },
-  { label: "FAQs", href: ROUTES.faqs },
-  { label: "Contact", href: ROUTES.contact },
-];
-
-export const FOOTER_SERVICE_LINKS: NavLink[] = serviceLinks;
+  return {
+    main: [
+      { label: t.home, href: href(ROUTES.home) },
+      { label: t.about, href: href(ROUTES.about) },
+      { label: t.services, href: href(ROUTES.services), children: serviceLinks },
+      { label: t.products, href: href(ROUTES.products) },
+      { label: t.gallery, href: href(ROUTES.gallery) },
+      { label: t.faqs, href: href(ROUTES.faqs) },
+    ],
+    cta: { label: t.cta, href: href(ROUTES.contact) },
+    footerExplore: [
+      { label: t.home, href: href(ROUTES.home) },
+      { label: t.about, href: href(ROUTES.about) },
+      { label: t.products, href: href(ROUTES.products) },
+      { label: t.gallery, href: href(ROUTES.gallery) },
+      { label: t.faqs, href: href(ROUTES.faqs) },
+      { label: t.contact, href: href(ROUTES.contact) },
+    ],
+    footerServices: serviceLinks,
+  };
+}

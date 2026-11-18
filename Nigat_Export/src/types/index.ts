@@ -46,6 +46,8 @@ export interface FaqItem {
 }
 
 export interface FaqGroup {
+  /** Anchor on the FAQ page — the same in every language. */
+  id: string;
   title: string;
   items: FaqItem[];
 }

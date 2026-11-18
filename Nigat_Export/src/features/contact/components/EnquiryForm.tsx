@@ -7,14 +7,16 @@ import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui";
 import {
   buildEnquiryMailto,
-  ENQUIRY_OPTIONS,
   GENERAL_ENQUIRY,
   validateEnquiry,
   type EnquiryErrors,
+  type EnquiryFormData,
   type EnquiryValues,
 } from "../lib/enquiry";
 
 interface EnquiryFormProps {
+  /** Topics and copy in the current language (from `getEnquiryFormData`). */
+  data: EnquiryFormData;
   /** Pre-selected topic (service slug or product category slug). */
   defaultInterest?: string;
   /** Render for a dark background. */
@@ -30,7 +32,8 @@ const EMPTY_VALUES: Omit<EnquiryValues, "interest"> = {
 };
 
 /** Underline-style enquiry form. Validates client-side, then hands off to the visitor's email app. */
-export function EnquiryForm({ defaultInterest = GENERAL_ENQUIRY, inverse }: EnquiryFormProps) {
+export function EnquiryForm({ data, defaultInterest = GENERAL_ENQUIRY, inverse }: EnquiryFormProps) {
+  const { copy } = data;
   const formId = useId();
   const [values, setValues] = useState<EnquiryValues>({ ...EMPTY_VALUES, interest: defaultInterest });
   const [errors, setErrors] = useState<EnquiryErrors>({});
@@ -46,7 +49,7 @@ export function EnquiryForm({ defaultInterest = GENERAL_ENQUIRY, inverse }: Enqu
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const nextErrors = validateEnquiry(values);
+    const nextErrors = validateEnquiry(values, copy);
     setErrors(nextErrors);
 
     const firstInvalid = Object.keys(nextErrors)[0];
@@ -55,7 +58,7 @@ export function EnquiryForm({ defaultInterest = GENERAL_ENQUIRY, inverse }: Enqu
       return;
     }
 
-    window.location.href = buildEnquiryMailto(values);
+    window.location.href = buildEnquiryMailto(values, data);
     setSubmitted(true);
   };
 
@@ -82,22 +85,22 @@ export function EnquiryForm({ defaultInterest = GENERAL_ENQUIRY, inverse }: Enqu
 
   return (
     <form noValidate onSubmit={handleSubmit} className="grid gap-x-8 gap-y-10 md:grid-cols-2">
-      <Field {...fieldBase} name="firstName" label="First name">
+      <Field {...fieldBase} name="firstName" label={copy.firstName}>
         <input type="text" autoComplete="given-name" {...fieldProps("firstName")} />
       </Field>
-      <Field {...fieldBase} name="lastName" label="Last name">
+      <Field {...fieldBase} name="lastName" label={copy.lastName}>
         <input type="text" autoComplete="family-name" {...fieldProps("lastName")} />
       </Field>
-      <Field {...fieldBase} name="email" label="Email">
+      <Field {...fieldBase} name="email" label={copy.email}>
         <input type="email" autoComplete="email" {...fieldProps("email")} />
       </Field>
-      <Field {...fieldBase} name="phone" label="Phone">
+      <Field {...fieldBase} name="phone" label={copy.phone}>
         <input type="tel" autoComplete="tel" {...fieldProps("phone")} />
       </Field>
-      <Field {...fieldBase} name="interest" label="Topic" className="md:col-span-2">
+      <Field {...fieldBase} name="interest" label={copy.topic} className="md:col-span-2">
         <div className="relative">
           <select {...fieldProps("interest")}>
-            {ENQUIRY_OPTIONS.map((option) => (
+            {data.options.map((option) => (
               <option key={option.value} value={option.value} className="text-ink">
                 {option.label}
               </option>
@@ -109,16 +112,16 @@ export function EnquiryForm({ defaultInterest = GENERAL_ENQUIRY, inverse }: Enqu
           />
         </div>
       </Field>
-      <Field {...fieldBase} name="message" label="Message" className="md:col-span-2">
-        <textarea rows={3} placeholder="Tell us the product, grade, volume and destination…" {...fieldProps("message")} />
+      <Field {...fieldBase} name="message" label={copy.message} className="md:col-span-2">
+        <textarea rows={3} placeholder={copy.messagePlaceholder} {...fieldProps("message")} />
       </Field>
 
       <div className="flex flex-col gap-6 md:col-span-2 md:flex-row md:items-center md:justify-between">
         <p className={cn("max-w-[26rem] text-sm", inverse ? "text-silver" : "text-steel")}>
-          Submitting opens your email app with the enquiry ready to send.
+          {copy.note}
         </p>
         <Button type="submit" variant={inverse ? "primary" : "dark"}>
-          Send enquiry
+          {copy.submit}
         </Button>
       </div>
 
@@ -127,7 +130,7 @@ export function EnquiryForm({ defaultInterest = GENERAL_ENQUIRY, inverse }: Enqu
           <span className="flex items-start gap-3">
             <Check aria-hidden className="mt-1 size-4 shrink-0 text-accent" />
             <span>
-              Your email app should now open with your enquiry. If it didn&apos;t, email us at{" "}
+              {copy.success}{" "}
               <a href={`mailto:${CONTACT.email}`} className="text-link">
                 {CONTACT.email}
               </a>

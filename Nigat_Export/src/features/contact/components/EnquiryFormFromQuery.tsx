@@ -9,7 +9,7 @@ type EnquiryFormProps = Omit<ComponentProps<typeof EnquiryForm>, "defaultInteres
 
 function QueryAwareForm(props: EnquiryFormProps) {
   const interest = useSearchParams().get("interest");
-  const defaultInterest = isEnquiryOption(interest) ? interest : undefined;
+  const defaultInterest = isEnquiryOption(props.data.options, interest) ? interest : undefined;
   return <EnquiryForm key={defaultInterest} defaultInterest={defaultInterest} {...props} />;
 }
 

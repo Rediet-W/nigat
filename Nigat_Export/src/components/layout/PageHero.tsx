@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ROUTES } from "@/constants/routes";
+import { getDictionary } from "@/i18n/server";
 import { cn } from "@/lib/cn";
 import { Container, Eyebrow } from "@/components/ui";
 import type { NavLink } from "@/types";
@@ -19,8 +20,9 @@ interface PageHeroProps {
 }
 
 /** Inner-page opener on linen: the title column beside a framed photograph with a leaf-green tag. */
-export function PageHero({ title, eyebrow, image, lead, trail = [], size = "tall", children }: PageHeroProps) {
-  const crumbs: NavLink[] = [{ label: "Home", href: ROUTES.home }, ...trail];
+export async function PageHero({ title, eyebrow, image, lead, trail = [], size = "tall", children }: PageHeroProps) {
+  const { t, href } = await getDictionary();
+  const crumbs: NavLink[] = [{ label: t.common.home, href: href(ROUTES.home) }, ...trail];
 
   return (
     <section className="border-b border-line bg-paper pt-[calc(var(--header-height)_+_2.5rem)] pb-14 text-ink lg:pt-[calc(var(--header-height)_+_3.5rem)] lg:pb-20">

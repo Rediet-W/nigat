@@ -4,15 +4,19 @@ import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/cn";
 import { formatIndex } from "@/lib/format";
 import { Reveal, Section, TextLink } from "@/components/ui";
-import { SERVICES } from "../data/services";
+import { fill } from "@/i18n/dictionaries";
+import { getDictionary } from "@/i18n/server";
+import { getServices } from "../data/services";
 
 /** Services page: a two-by-two grid of service sheets, the second column set lower. */
-export function ServicesShowcase() {
+export async function ServicesShowcase() {
+  const { locale, t, href: localize } = await getDictionary();
+
   return (
     <Section>
       <div className="grid grid-cols-1 gap-x-10 gap-y-20 md:grid-cols-2 lg:gap-x-16">
-        {SERVICES.map((service, i) => {
-          const href = ROUTES.service(service.slug);
+        {getServices(locale).map((service, i) => {
+          const href = localize(ROUTES.service(service.slug));
 
           return (
             <Reveal as="article" key={service.slug} delay={(i % 2) * 120} className={cn("group", i % 2 === 1 && "md:mt-28")}>
@@ -39,7 +43,7 @@ export function ServicesShowcase() {
                 ))}
               </ul>
               <TextLink href={href} className="mt-8">
-                Explore {service.title}
+                {fill(t.services.explore, { title: service.title })}
               </TextLink>
             </Reveal>
           );
